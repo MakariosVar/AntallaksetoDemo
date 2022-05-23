@@ -8,22 +8,22 @@
           <div class="card-body">
             <img src="{{ $user->profile->profileImage() }}" class="rounded-circle" width="150">
             <div class="mt-3">
-              <h3> {{ $user->name}}</h3>
+           
               @can('update', $user->profile)      
                 <a href="/profile/{{$user->id}}/edit">Διαμόρφωση Προφίλ</a>
               @endcan
           
-     
-              
+       
+              @if(!(Auth::user()->id == $user->id) )
               <div>
               <follow-button user-id="{{ $user->id }}" follows="{{ $follows }}"></follow-button>
               </div>
-           
+              @endif
 
               <div  style=" text-align: center;"> Posts: <strong>{{$postCount}}</strong></div>
               <div  style=" text-align: center;">Followers: <strong>{{$followersCount}}</strong> </div>
               <div  style=" text-align: center;">Following: <strong>{{$followingCount}}</strong> </div>
-              <a href="/chat/{{ $user->id }}" target=”_blank”>Στείλτε μήνυμα</a>
+           
             </div>
           </div>
         </div>
@@ -33,7 +33,7 @@
 
           <form action="/c/store" method="post">
             @csrf
-            <div class="form-group row">
+            <div class="form-group row  justify-content-center">
                     <label for="comment" class="col-md-4 col-form-label"></label>
 
                     <input id="comment" 
@@ -61,8 +61,8 @@
         </div>
       </div>
       <div class="col-md-8 mt-1">
-        <div class="card mb-3 content">
-          <h1 class="m-3 pt-3"> {{ $user->profile->title}}</h1>
+        <div class="card mb-3 content text-center">
+          <h1 class="m-3 pt-3"> {{ $user->name}}</h1>
            <div class="card-body">
             <div class="row">
               <div class="col-md-3">

@@ -7,8 +7,12 @@
 	<p style="font-size:40px">
 		Κανένα Αποτέλεσμα
 	</p>
-	<h3>Δώστε Διαφορετικά Στοιχεία <a href="/find">αναζήτησης</a></h3>
-	<h4>Ή Δείτε <a href="/p">Όλες τις Αγγελίες</a></h4>
+  <div class="d-flex justify-content-center">
+			<img src="/images/NewLogoPNG.svg" class="imageNotFound">
+		</div>
+	<h2>Δείτε <a href="/p">Όλες τις Αγγελίες</a></h2>
+  
+  <h3>Ή κάντε <a href="/p/create"  >πρσθήκη της πρώτης αγγελίας για την κατηγορία {{request()->category}}</a></h3>
 </div>
 @else
 <section class="u-clearfix u-gradient" id="sec-64c3" style="min-height:700px;">
@@ -33,7 +37,7 @@
 
                       <div class="u-form-group u-label-top">
                         <label for="category" class="u-label">Κατηγορία</label>
-                        <select id="category" name="category"  class="form-select form-control form-control-lg"  aria-label="category">
+                        <select id="category" name="category"  class="form-select form-control form-control-lg"  aria-label="category">                  
                             <option value="Διάφορα" selected>Διάφορα</option>
                             <option value="Ρούχα">Ρούχα</option>
                             <option value="Παππούτσια">Παππούτσια</option>

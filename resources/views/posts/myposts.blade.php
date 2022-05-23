@@ -7,7 +7,7 @@
 		<div  style=" text-align: center; font-size:40px;"><strong>Οι Αγγελίες μου</strong>
 		</div>      
 	</div>
-	<div class="card mb-3 content">
+	<div class="card mb-3 content" style="min-height:700px;">
        	<section class="post-list">
              
 	    	@foreach($posts as $post)
@@ -27,9 +27,14 @@
     	</section>
 	</div>
 	@else
-	<div  style=" text-align: center; font-size:40px;"><strong>Δεν έχετε καταχωρήσει αγγελίες ακόμη</strong>
-	<br>
-	<a href="http://antallakseto.gr/p/create">Νέα αγγελία</a>
+	<div class="pageMinFit">
+		<div class="d-flex justify-content-center">
+			<img src="/images/NewLogoPNG.svg" class="imageNotFound">
+		</div>
+		<div  style=" text-align: center; font-size:40px; "><strong>Δεν έχετε καταχωρήσει αγγελίες ακόμη</strong>
+			<br>
+			<a href="/p/create">Νέα αγγελία</a>
+		</div>
 	</div>
 	@endif
 	

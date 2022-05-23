@@ -143,20 +143,27 @@
                 <input type="checkbox" class="form-check-input" name="premium" value="0">
                 <label for="premium"> Premium </label><br>
 
+            <div class="text-center">
+                <h2>Φωτογραφίες</h2>
+                <p>*Απαραίτητη Τουλάχιστον μια (1) φωτογραφία</p>
+            </div>
+            
+           
+                      <!-- IMAGE 0-->
+                       <div class="row">
+                        <label for="image0" class="col-md-6 col-form-label">Προσθήκη Φωτογραφίας 1*</label>
 
-                 <!-- IMAGE 0 -->
-                <div class="row">
-                    <label for="image0" class="col-md-4 col-form-label">Προσθήκη Φωτογραφίας 1 (Απαραίτητη τουλαχιστον μια Φωτογραφια)</label>
+                        <input type="file" class="form-control-file" id="image0" name="image1">
 
-                    <input type="file" class="form-control-file" id="image0" name="image0">
-
-                    @error('image0') 
+                        @error('image0') 
                     <strong>{{ $errors->first('image0') }}</strong>
                     @enderror
-                </div>   
+                </div> 
+                
+                
                         <!-- IMAGE 1 -->
                 <div class="row">
-                        <label for="image1" class="col-md-4 col-form-label">Προσθήκη Φωτογραφίας 2</label>
+                        <label for="image1" class="col-md-6 col-form-label">Προσθήκη Φωτογραφίας 2</label>
 
                         <input type="file" class="form-control-file" id="image1" name="image1">
 
@@ -167,7 +174,7 @@
                 
                     <!-- IMAGE 2 -->   
                 <div class="row">
-                    <label for="image2" class="col-md-4 col-form-label">Προσθήκη Φωτογραφίας 3</label>
+                    <label for="image2" class="col-md-6 col-form-label">Προσθήκη Φωτογραφίας 3</label>
 
                     <input type="file" class="form-control-file" id="image2" name="image2">
 
@@ -178,7 +185,7 @@
                 
                     <!-- IMAGE 3 -->   
                 <div class="row">
-                    <label for="image3" class="col-md-4 col-form-label">Προσθήκη Φωτογραφίας 3</label>
+                    <label for="image3" class="col-md-6 col-form-label">Προσθήκη Φωτογραφίας 3</label>
 
                     <input type="file" class="form-control-file" id="image3" name="image3">
 
@@ -189,7 +196,7 @@
                
                  <!-- IMAGE 4 -->   
                 <div class="row">
-                    <label for="image4" class="col-md-4 col-form-label">Προσθήκη Φωτογραφίας 3</label>
+                    <label for="image4" class="col-md-6 col-form-label">Προσθήκη Φωτογραφίας 3</label>
 
                     <input type="file" class="form-control-file" id="image4" name="image4">
 
@@ -199,10 +206,10 @@
                 </div>
 
 
-
+     
 
                    
-                <div class="row pt-4">
+                <div class="row pt-4 justify-content-center">
                     <button class="btn btn-primary ">Εκχώρηση</button>
                 </div> 
             </div>

@@ -10,14 +10,19 @@
       <div class="u-carousel-inner" role="listbox">
         <div class="skrollable skrollable-between u-active u-align-center u-carousel-item u-clearfix u-image u-shading u-section-1-1" src="" data-image-width="1080" data-image-height="1080">
           <div class="u-clearfix u-sheet u-sheet-1">
-            <h1 class="u-text u-text-1 infotext">Coaching Services</h1>
-            <p class="u-large-text u-text u-text-variant u-text-2 infotext">Simple Text. Lorem ipsum dSed rutrum dolor sit amet consequat rhoncus. Nam porta hendrerit vestibulum. Nam sed diam lectus. Etiam at dui urna. Donec consequat ante dolor, in lobortis ipsum molestie sed. Ut purus diam, ullamcorper et libero quis, efficitur accumsan ante. Fusce luctus, lacus sollicitudin dignissim varius, quam nulla venenatis augue, ac posuere orci ipsum id enim. Curabitur efficitur elit sit amet lorem tempus semper. Aliquam libero mauris, gravida eu mattis ut, tincidunt ornare arcu.<br>Proin ac elit at tellus viverra posuere vitae id urna<br>. Maecenas iaculis quam neque,<br>et auctor magna consequat<br>a. Interdumolor sit amet, consectetur adipiscing elit. Curabitur id suscipit ex. Suspendisse rhoncus laoreet purus quis elementum.
-            </p>
+            <h1 class="u-text u-text-1 infotext">Πως Λειτουργεί:</h1>
+            <p class="u-large-text u-text u-text-variant u-text-2 infotext">
+                
+                  1. asdljkhasldkasjdlkasjdlaskdjaslkdjas<br><br>
+                  2. sadkla dsaf  iausd f asdfoiu fasdfi   aosdfaksjdfhakjsdfhkajsd  asdofasd oifuasd fasdfasd asd fioua sdf asdf<br><br>
+                  3. asd asssssssssssssss fasdfa sdf             ogapifgapodf         pfaosdif asdfasd<br><br>
+                
+              </p>
           </div>
         </div>
         <div class="skrollable skrollable-between u-align-center u-carousel-item u-clearfix u-image u-shading u-section-1-2" src="" data-image-width="1600" data-image-height="1479">
           <div class="u-clearfix u-sheet u-sheet-1">
-            <h1 class="u-text u-text-1 infotext">Coaching Services</h1>
+            <h1 class="u-text u-text-1 infotext">Χρήσιμες Πληροφρίες</h1>
             <p class="u-large-text u-text u-text-variant u-text-2 infotext infotext">Simple Text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur id suscipit ex. Suspendisse rhoncus laoreet purus quis elementum.<br>
               <br>Integer tincidunt nibh vel lectus tristique iaculis. Fusce congue est nibh, non dignissim ligula placerat iaculis. Integer eu lectus sed massa mollis aliquet. Nam placerat vestibulum elit, sit amet commodo tortor hendrerit nec. Duis volutpat nulla a mauris tincidunt blandit. Donec sed risus pulvinar, suscipit sapien id, volutpat sapien. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque ut sapien ut augue maximus scelerisque ut vitae tortor. Morbi congue vulputate nisl, in condimentum nunc. Suspendisse potenti. Morbi feugiat justo risus, accumsan ullamcorper ante fermentum et. Ut convallis, erat aliquam tincidunt auctor, massa nisi mattis risus, et tempor justo orci sed urna. Duis lobortis vulputate scelerisque.<br>
             </p>
@@ -25,7 +30,7 @@
         </div>
         <div class="skrollable skrollable-between u-align-center u-carousel-item u-clearfix u-image u-shading u-section-1-3" src="" data-image-width="4108" data-image-height="3318">
           <div class="u-clearfix u-sheet u-sheet-1">
-            <h1 class="u-text u-text-1 infotext">Coaching Services</h1>
+            <h1 class="u-text u-text-1 infotext">Σχετικά με εμάς</h1>
             <p class="u-large-text u-text u-text-variant u-text-2 infotext">Simple Text. Lorem ipsum dSed rutrum dolor sit amet consequat rhoncus. Nam porta hendrerit vestibulum. Nam sed diam lectus. Etiam at dui urna. Donec consequat ante dolor, in lobortis ipsum molestie sed. Ut purus diam, ullamcorper et libero quis, efficitur accumsan ante. Fusce luctus, lacus sollicitudin dignissim varius, quam nulla venenatis augue, ac posuere orci ipsum id enim. Curabitur efficitur elit sit amet lorem tempus semper. Aliquam libero mauris, gravida eu mattis ut, tincidunt ornare arcu.<br>Proin ac elit at tellus viverra posuere vitae id urna<br>. Maecenas iaculis quam neque,<br>et auctor magna consequat<br>a. Interdumolor sit amet, consectetur adipiscing elit. Curabitur id suscipit ex. Suspendisse rhoncus laoreet purus quis elementum.
             </p>
           </div>

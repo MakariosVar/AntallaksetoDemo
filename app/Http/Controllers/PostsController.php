@@ -263,12 +263,20 @@ class PostsController extends Controller
             'category' => 'required'
             
         ]);
-       // dd($search['title']);
-        // Search in the title and body columns from the posts table
+       //dd(!($search['category'] == "Διάφορα"));
+       if(!($search['category'] == "Διάφορα"))
+       {
+        // Search in the title and category columns from the posts table
         $posts = Post::query()
         ->where('title', 'LIKE', "{$search['title']}")
         ->orWhere('category', 'LIKE', "{$search['category']}")
         ->get();
+       }
+       else
+       {
+           $posts = Post::all();
+       }
+      
         
        
         // Return the search view with the resluts compacted

@@ -25,7 +25,7 @@
                   <textarea placeholder="Μήνυμα" rows="4" cols="50" id="message-5a14" name="message" class="u-input u-input-rectangle u-white" required=""></textarea>
                 </div>
                 <div class="u-align-center u-form-group u-form-submit u-form-group-4">
-                  <a href="#" class="u-active-white u-border-2 u-border-white u-btn u-btn-submit u-button-style u-hover-white u-none u-text-hover-black u-text-white u-btn-1">Submit</a>
+                  <a href="#" class="u-active-white u-border-2 u-border-white u-btn u-btn-submit u-button-style u-hover-white u-none u-text-hover-black u-text-white u-btn-1">Αποστολή</a>
                   <input type="submit" value="submit" class="u-form-control-hidden" wfd-invisible="true">
                 </div>
                 <div class="u-form-send-message u-form-send-success" wfd-invisible="true"> Thank you! Your message has been sent. </div>

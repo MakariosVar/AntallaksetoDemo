@@ -690,7 +690,7 @@
 @media (max-width: 991px) {
   .u-section-3 .u-repeater-1 {
     grid-template-columns: calc(50% - 5px) calc(50% - 5px);
-    min-height: 2417px;
+    
   }
 }
 

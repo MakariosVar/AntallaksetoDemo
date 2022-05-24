@@ -694,7 +694,7 @@ nav.main-menu {
 
 .post-list {
      display: grid;
-     grid-template-columns: repeat(3, minmax(100px, 400px));
+     max-width: 1200px;
      justify-content: center;
      grid-gap: 28px;
    }
@@ -738,11 +738,15 @@ nav.main-menu {
      display: inline-block;
    }
    
-   @media screen and (max-width: 768px) {
+   @media (min-width: 600px) {
      .post-list {
-       grid-gap: 3px;
+       grid-template-columns: repeat(2,1fr);
      }
    }
+   @media (min-width: 900px) {
+     .post-list { grid-template-columns: repeat(3, 1fr); }
+   }
+   
    @supports (display: grid) {
    .gridprof {
      display: grid;
@@ -966,4 +970,12 @@ nav.main-menu {
    {
         max-height: 500px;
         width: auto;
+   }
+   .premiumhomefix
+   {
+        max-height: 450px;
+   }
+   .postText
+   {
+        word-break: break-all;
    }

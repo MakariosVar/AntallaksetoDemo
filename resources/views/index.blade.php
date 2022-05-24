@@ -312,63 +312,61 @@ c6.177,6.18,9.262,14.271,9.262,22.366C354.708,234.018,351.617,242.115,345.441,24
       <div class="u-clearfix u-sheet u-sheet-1">
         <h2 class="u-align-center u-text u-text-1">Προωθημένες Αγγελίες</h2>
         <div class="u-expanded-width u-layout-grid u-list u-list-1">
-          <div class="u-repeater u-repeater-1">
-            <div class="u-border-2 u-border-grey-75 u-container-style u-list-item u-repeater-item u-shape-rectangle u-list-item-1">
-              <div class="u-container-layout u-similar-container u-valign-middle u-container-layout-1">
-                <h3 class="u-align-center u-text u-text-2">Sample Headline</h3>
-                <img class="u-image u-image-default u-preserve-proportions u-image-1" src="/images/NewLogoPNG-3.svg" alt="" data-image-width="1080" data-image-height="1080">
-                <p class="u-align-center u-text u-text-3">Sample text. Click to select the text box. Click again or double click to start editing the text.</p>
-              </div>
+        <div class="u-repeater u-repeater-1">
+
+        
+        @foreach($posts as $post)
+              
+              
+            @if($post->premium == 1)
+            <div class="u-border-2 u-border-grey-75 u-container-style u-list-item u-repeater-item u-shape-rectangle u-list-item-1 premiumhomefix">
+                <div class="u-container-layout u-similar-container u-valign-middle u-container-layout-1">
+                        <h3 class="u-align-center u-text u-text-2">{{ $post->title }}</h3>
+                    </a>
+                    <a href="/p/{{ $post->id }}">
+                        <img class="u-image u-image-default u-preserve-proportions u-image-1" src="/storage/{{ $post->image0 }}" alt="" data-image-width="1080" data-image-height="1080">
+                    </a>
+                    <a href="/p/{{ $post->id }}">
+                        <p class="u-align-center u-text u-text-3">
+                            {{ substr($post->description, 0, 150)}} ...
+                        </p>
+                        <br>
+                        <div class="text-center">
+                            <a href="/p/{{ $post->id }}">Δείτε Περισότερα</a>
+                        </div>
+                            
+                    </a>
+                </div>
             </div>
-            <div class="u-border-2 u-border-grey-75 u-container-style u-list-item u-repeater-item u-shape-rectangle u-list-item-2">
-              <div class="u-container-layout u-similar-container u-valign-middle u-container-layout-2">
-                <h3 class="u-align-center u-text u-text-4">Sample Headline</h3>
-                <img class="u-image u-image-default u-preserve-proportions u-image-2" src="/images/NewLogoPNG-3.svg" alt="" data-image-width="1080" data-image-height="1080">
-                <p class="u-align-center u-text u-text-5">Sample text. Click to select the text box. Click again or double click to start editing the text.</p>
-              </div>
+            @endif
+        @endforeach
+        <div class="u-border-2 u-border-grey-75 u-container-style u-list-item u-repeater-item u-shape-rectangle u-list-item-1 premiumhomefix">
+            <div class="u-container-layout u-similar-container u-valign-middle u-container-layout-1">
+                    @if(Auth::check())    
+                    <a href="/p/myposts/{{Auth::user()->id}}">
+                    @else
+                    <a href="/login">
+                    @endif
+                        <h3 class="u-align-center u-text u-text-2">ΠΡΟΩΘΗΣΕ ΤΗΝ ΑΓΓΕΛΙΑ ΣΟΥ</h3>
+                    </a>
+                    @if(Auth::check())
+                    <a href="/p/myposts/{{Auth::user()->id}}">
+                    @else
+                    <a href="/login">
+                    @endif
+                        <img class="u-image u-image-default u-preserve-proportions u-image-1" src="/images/premium.png" alt="" data-image-width="1080" data-image-height="1080">
+                    </a>
+                    @if(Auth::check())
+                    <a href="/p/myposts/{{Auth::user()->id}}">
+                    @else
+                    <a href="/login">
+                    @endif
+                        <p class="u-align-center u-text u-text-3">Πατήστε εδώ για να επιλέξετε ή να προσθεσετε μια νέα</p>
+                    </a>
+                </div>
             </div>
-            <div class="u-border-2 u-border-grey-75 u-container-style u-list-item u-repeater-item u-shape-rectangle u-list-item-3">
-              <div class="u-container-layout u-similar-container u-valign-middle u-container-layout-3">
-                <h3 class="u-align-center u-text u-text-6">Sample Headline</h3>
-                <img class="u-image u-image-default u-preserve-proportions u-image-3" src="/images/NewLogoPNG-3.svg" alt="" data-image-width="1080" data-image-height="1080">
-                <p class="u-align-center u-text u-text-7">Sample text. Click to select the text box. Click again or double click to start editing the text.</p>
-              </div>
-            </div>
-            <div class="u-border-2 u-border-grey-75 u-container-style u-list-item u-repeater-item u-shape-rectangle u-list-item-4">
-              <div class="u-container-layout u-similar-container u-valign-middle u-container-layout-4">
-                <h3 class="u-align-center u-text u-text-8">Sample Headline</h3>
-                <img class="u-image u-image-default u-preserve-proportions u-image-4" src="/images/NewLogoPNG-3.svg" alt="" data-image-width="1080" data-image-height="1080">
-                <p class="u-align-center u-text u-text-9">Sample text. Click to select the text box. Click again or double click to start editing the text.</p>
-              </div>
-            </div>
-            <div class="u-border-2 u-border-grey-75 u-container-style u-list-item u-repeater-item u-shape-rectangle u-list-item-5">
-              <div class="u-container-layout u-similar-container u-valign-middle u-container-layout-5">
-                <h3 class="u-align-center u-text u-text-10">Sample Headline</h3>
-                <img class="u-image u-image-default u-preserve-proportions u-image-5" src="/images/NewLogoPNG-3.svg" alt="" data-image-width="1080" data-image-height="1080">
-                <p class="u-align-center u-text u-text-11">Sample text. Click to select the text box. Click again or double click to start editing the text.</p>
-              </div>
-            </div>
-            <div class="u-border-2 u-border-grey-75 u-container-style u-list-item u-repeater-item u-shape-rectangle u-list-item-6">
-              <div class="u-container-layout u-similar-container u-valign-middle u-container-layout-6">
-                <h3 class="u-align-center u-text u-text-12">Sample Headline</h3>
-                <img class="u-image u-image-default u-preserve-proportions u-image-6" src="/images/NewLogoPNG-3.svg" alt="" data-image-width="1080" data-image-height="1080">
-                <p class="u-align-center u-text u-text-13">Sample text. Click to select the text box. Click again or double click to start editing the text.</p>
-              </div>
-            </div>
-            <div class="u-border-2 u-border-grey-75 u-container-style u-list-item u-repeater-item u-shape-rectangle u-list-item-7">
-              <div class="u-container-layout u-similar-container u-valign-middle u-container-layout-7">
-                <h3 class="u-align-center u-text u-text-14">Sample Headline</h3>
-                <img class="u-image u-image-default u-preserve-proportions u-image-7" src="/images/NewLogoPNG-3.svg" alt="" data-image-width="1080" data-image-height="1080">
-                <p class="u-align-center u-text u-text-15">Sample text. Click to select the text box. Click again or double click to start editing the text.</p>
-              </div>
-            </div>
-            <div class="u-border-2 u-border-grey-75 u-container-style u-list-item u-repeater-item u-shape-rectangle u-list-item-8">
-              <div class="u-container-layout u-similar-container u-valign-middle u-container-layout-8">
-                <h3 class="u-align-center u-text u-text-16">Sample Headline</h3>
-                <img class="u-image u-image-default u-preserve-proportions u-image-8" src="/images/NewLogoPNG-3.svg" alt="" data-image-width="1080" data-image-height="1080">
-                <p class="u-align-center u-text u-text-17">Sample text. Click to select the text box. Click again or double click to start editing the text.</p>
-              </div>
-            </div>
+           
+            
           </div>
         </div>
       </div>

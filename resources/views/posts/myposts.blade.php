@@ -7,8 +7,12 @@
 		<div  style=" text-align: center; font-size:40px;"><strong>Οι Αγγελίες μου</strong>
 		</div>      
 	</div>
-	<div class="card mb-3 content" style="min-height:700px;">
-       	<section class="post-list">
+	<div class="mt-3 text-center p-3">
+		<a href="#" class="big">Προώθηση Αγγελίας</a>     
+	</div>
+	
+	<div class="card mb-3 content p-5" style="min-height:700px;">
+       	<section class="post-list ">
              
 	    	@foreach($posts as $post)
 	    	<a href="../{{ $post->id }}" class="post">

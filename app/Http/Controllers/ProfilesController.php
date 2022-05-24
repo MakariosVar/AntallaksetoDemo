@@ -47,7 +47,7 @@ class ProfilesController extends Controller
         $this->authorize('update', $user->profile);
   
         $data = request()->validate([
-            'description' => ['required','max:600'],
+            'description' => 'max:600',
             'image' => '',
         ]);
         

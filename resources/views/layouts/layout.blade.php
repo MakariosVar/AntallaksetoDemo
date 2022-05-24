@@ -87,7 +87,7 @@
                   </div>
                 </li>
                 <li class="u-nav-item">
-                  @if(!(Route::has('login')))
+                  @if(!(Auth::user()))
                   <a class="u-border-2 u-border-active-palette-1-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-grey-90" style="padding: 10px 0px;">Λογαριασμός</a>
                   @else
                   <a class="u-border-2 u-border-active-palette-1-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-grey-90" style="padding: 10px 0px;">{{ Auth::user()->name }}</a>

@@ -2,14 +2,8 @@
 @section('content')
 <div class="container"  >
 
-        <div class="row m-2 rounded" 
-	    style="	justify-content: center; 
-				padding: 20px;
-				max-height:auto;
-				overflow:hidden;
-				background-color: #F5FFFA;"
-				>
-					<div class="d-flex">
+        <div class="row m-2 rounded pageMinFit">
+					<div class="row d-flex nowrap w-100 justify-content-center">
 						<div >
 							<div><a href="javascript:history.back()"><-Πίσω</a></div>
 							<img src="/storage/{{ $post->image0 }}"  
@@ -42,35 +36,38 @@
 						</div>
 
 
-						<div style="position: relative;">
+						<div class="w-100" style="position: relative; max-width: 700px;">
 
+							
+							<p class="postText"> <strong>{{ $post->title}}</strong></p>
 
-							<h1 style="margin: 20px">{{ $post->title}}</h1>
+							
 
-							<p><a href="/chat/{{ $post->user_id }}" target=”_blank”>Στείλτε μήνυμα</a></p>
-
-							<p><small><strong> Περιγραφή  : </strong>{{ $post->description}}</small></p>
+							<p class="postText"><small><strong> Περιγραφή  : </strong>{{ $post->description}}</small></p>
 						
-							<p><small><strong>Περιοχή:</strong> {{ $post->adlocation}}</small></p>
-							<p><small><strong>Κατηγορία:</strong> {{ $post->category}}</small></p>
-							<p><small><strong>Κατάσταση:</strong> {{ $post->condition}}</small></p>
-							<p><small><strong>Ανταλλαγή για:</strong> {{ $post->transferPref }}</small></p>
-							<p><small><strong>Του Χρήστη:</strong><a href="/profile/{{$post->user_id}}">  {{ $post->user->name }}</a></small></p>
-							<p><small><strong>Email:</strong>  {{ $post->user->email }}</small></p>
-							<p><small><strong>Τηλέφωνο:</strong>  {{ $post->phone }}</small></p>
-							<p><small><strong>Ημερομηνία:</strong> {{ $post->created_at }}</small></p>
+							<p class="postText"><small><strong>Περιοχή:</strong> {{ $post->adlocation}}</small></p>
+							<p class="postText"><small><strong>Κατηγορία:</strong> {{ $post->category}}</small></p>
+							<p class="postText"><small><strong>Κατάσταση:</strong> {{ $post->condition}}</small></p>
+							<p class="postText"><small><strong>Ανταλλαγή για:</strong> {{ $post->transferPref }}</small></p>
+							<p class="postText"><small><strong>Του Χρήστη:</strong><a href="/profile/{{$post->user_id}}">  {{ $post->user->name }}</a></small></p>
+							<p class="postText"><small><strong>Email:</strong>  {{ $post->user->email }}</small></p>
+							<p class="postText"><small><strong>Τηλέφωνο:</strong>  {{ $post->phone }}</small></p>
+							<p class="postText"><small><strong>Ημερομηνία:</strong> {{ $post->created_at }}</small></p>
 							
 							@if(Auth::id() == $post->user_id)      
-							<p><a href="/p/{{$post->id}}/edit">Διαμόρφωση Aγγελίας</a></p>
+							<div class="text-center">
+								<p><a href="/p/{{$post->id}}/edit">Διαμόρφωση Aγγελίας</a></p>
+							</div>
              						@endif
 
 							@if(Auth::id() == $post->user_id)
 							<form action="{{ route('post.destroy', ['post' => $post->id]) }}" method="POST">
-								 @csrf
+								@csrf
 								     
-								 @method('DELETE')
-								     
-								<button type="submit" class="btn btn-danger ml-3">Διαγραφή Αγγελίας</button>
+								@method('DELETE')
+								<div class="text-center">
+									<button type="submit" class="btn btn-danger ml-3">Διαγραφή Αγγελίας</button>
+								</div>
 							</form>
 							@endif  
 	

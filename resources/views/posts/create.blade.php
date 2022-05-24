@@ -153,7 +153,7 @@
                        <div class="row">
                         <label for="image0" class="col-md-6 col-form-label">Προσθήκη Φωτογραφίας 1*</label>
 
-                        <input type="file" class="form-control-file" id="image0" name="image1">
+                        <input type="file" class="form-control-file" id="image0" name="image0">
 
                         @error('image0') 
                     <strong>{{ $errors->first('image0') }}</strong>
@@ -185,7 +185,7 @@
                 
                     <!-- IMAGE 3 -->   
                 <div class="row">
-                    <label for="image3" class="col-md-6 col-form-label">Προσθήκη Φωτογραφίας 3</label>
+                    <label for="image3" class="col-md-6 col-form-label">Προσθήκη Φωτογραφίας 4</label>
 
                     <input type="file" class="form-control-file" id="image3" name="image3">
 
@@ -196,7 +196,7 @@
                
                  <!-- IMAGE 4 -->   
                 <div class="row">
-                    <label for="image4" class="col-md-6 col-form-label">Προσθήκη Φωτογραφίας 3</label>
+                    <label for="image4" class="col-md-6 col-form-label">Προσθήκη Φωτογραφίας 5</label>
 
                     <input type="file" class="form-control-file" id="image4" name="image4">
 

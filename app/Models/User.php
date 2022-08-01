@@ -62,6 +62,7 @@ class User extends \TCG\Voyager\Models\User
     }
 
 
+
         /**
      * Post connection
      *

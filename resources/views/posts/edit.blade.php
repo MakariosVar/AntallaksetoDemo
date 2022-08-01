@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="container">
-<?php// dd($post); ?>
+
         <form action="/p/{{ $post->id}}" enctype="multipart/form-data" method="post">
         @csrf
         @method('PATCH')

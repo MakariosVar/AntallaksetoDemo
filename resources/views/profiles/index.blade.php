@@ -13,13 +13,13 @@
                 <a href="/profile/{{$user->id}}/edit">Διαμόρφωση Προφίλ</a>
               @endcan
           
-       
-              @if(!(Auth::user()->id == $user->id) )
-              <div>
-              <follow-button user-id="{{ $user->id }}" follows="{{ $follows }}"></follow-button>
-              </div>
-              @endif
-
+              
+                @if( Auth::check() && !(Auth::user()->id == $user->id) )
+                  <div>
+                    <follow-button user-id="{{ $user->id }}" follows="{{ $follows }}"></follow-button>
+                  </div>
+                @endif
+            
               <div  style=" text-align: center;"> Posts: <strong>{{$postCount}}</strong></div>
               <div  style=" text-align: center;">Followers: <strong>{{$followersCount}}</strong> </div>
               <div  style=" text-align: center;">Following: <strong>{{$followingCount}}</strong> </div>

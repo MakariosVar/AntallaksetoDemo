@@ -15,6 +15,8 @@ class CreateTablePosts extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
+            $table->boolean('verified');
+            $table->boolean('reEdit');
             $table->unsignedBigInteger('user_id');
             $table->string('title', 255);
             $table->text('description');
@@ -23,11 +25,6 @@ class CreateTablePosts extends Migration
             $table->string('image2')->nullable();
             $table->string('image3')->nullable();
             $table->string('image4')->nullable();
-            $table->string('image5')->nullable();
-            $table->string('image6')->nullable();
-            $table->string('image7')->nullable();
-            $table->string('image8')->nullable();
-            $table->string('image9')->nullable();
             $table->text('adlocation');
             $table->string('category', 255);
             $table->string('condition');

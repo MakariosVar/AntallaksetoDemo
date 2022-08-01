@@ -6,6 +6,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ProfilesController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,62 +19,25 @@ use App\Http\Controllers\ProfilesController;
 |
 */
 
-Auth::routes();
-
-
-
-        // HOMEPAGE //
-
-Route::get('/', [HomeController::class, 'index']);
-
-    // // PROFILE ROUTES // // 
-
-Route::get('/profile/{user}', [ProfilesController::class, 'index'])->name('profile.show');
-Route::get('/profile/{user}/edit', [ProfilesController::class, 'edit'])->name('profile.edit');
-Route::patch('/profile/{user}', [ProfilesController::class, 'update'])->name('profile.update');
-
-// // POST ROUTES // //
-
-Route::get('/p', [PostsController::class, 'index'])->name('posts.index');
-Route::get('/p/myposts/{user}', [PostsController::class, 'myposts'])->name('myposts');
-Route::get('/p/create', [PostsController::class, 'create'])->middleware('auth');
-Route::post('/p/store', [PostsController::class, 'store'])->name('post.store');
-Route::get('/p/search', [PostsController::class, 'search'])->name('post.search');
-Route::get('/p/{post}', [PostsController::class, 'show'])->name('post.show');
-Route::get('/p/{post}/edit', [PostsController::class, 'edit'])->name('post.edit');
-Route::patch('/p/{post}', [PostsController::class, 'update'])->name('post.update');
-Route::delete('/p/{post}', [PostsController::class, 'destroy'])->name('post.destroy');
-
-// // SEARCH ROUTE // // 
-    Route::get('/find', function (){
-        return view('find');
-    });
-
-// // USERS ROUTES // //
-
-Route::get('/users', [UsersController::class, 'index']);
-
-// // COMMENTS ROUTES // // 
-
-Route::post('/c/store', [App\Http\Controllers\CommentsController::class, 'store'])->middleware('auth');
-Route::delete('/c/{comment}', [App\Http\Controllers\CommentsController::class, 'destroy'])->name('comment.destroy');
-
-// // FOLLOW ROUTES // //
-
-Route::post('follow/{user}', [App\Http\Controllers\FollowsController::class, 'store']);
-
-
-    // // INFO ROUTE // // 
-Route::get('/info', function (){
-    return view('info');
-});
-
-    // // CONTACT ROUTE // // 
-Route::get('/contact', function (){
-    return view('contact');
-});
 
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
+
+Route::get('/', function (){
+    return redirect('/home');
+});
+
+Route::get('/home', function (){
+    return view('app');
+});
+Route::get('{any}', function () {
+    return view('app');
+})->where('any','.*');
+
+
+
+
+        
+

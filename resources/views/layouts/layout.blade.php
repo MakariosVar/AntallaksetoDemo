@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="keywords" content="Ανταλλαξέ το, Δώσε ο,τι δεν χρειαζεσαι, Βρες ο,τι χρειαζεσαι, Κατηγορία, ​Κατηγορία, ​Κατηγορία, ​Κατηγορία, ​Κατηγορία, Quality, Quality, Quality, Quality, Προωθημένες Αγγελίες">
     <meta name="description" content="">
-    <meta name="page_type" content="np-template-header-footer-from-plugin">
+  
         
     <title>ΑνταλλαξέΤο</title>
 
@@ -55,7 +55,7 @@
 
       <header class="u-clearfix u-header u-header" id="sec-7f21">
         <div class="u-clearfix u-sheet u-valign-top u-sheet-1">
-          <a href="/" data-page-id="1258326521" class="u-image u-logo u-image-1" data-image-width="1080" data-image-height="1080" title="Αρχική">
+          <a href="/web" data-page-id="1258326521" class="u-image u-logo u-image-1" data-image-width="1080" data-image-height="1080" title="Αρχική">
             <img src="/images/NewLogoPNG.svg" class="u-logo-image u-logo-image-1">
           </a>
           <nav class="u-align-center u-menu u-menu-dropdown u-offcanvas u-menu-1">
@@ -67,8 +67,11 @@
             </div>
             <div class="u-custom-menu u-nav-container">
               <ul class="u-nav u-spacing-30 u-unstyled u-nav-1">
-                <li class="u-nav-item">
-                  <a class="u-border-2 u-border-active-palette-1-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-grey-90" href="/" style="padding: 10px 0px;">Αρχική</a>
+              <li class="u-nav-item">
+                  <a class="u-border-2 u-border-active-palette-1-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-grey-90" href="/home" style="padding: 10px 0px;">VUE</a>
+                </li> 
+              <li class="u-nav-item">
+                  <a class="u-border-2 u-border-active-palette-1-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-grey-90" href="/web" style="padding: 10px 0px;">Αρχική</a>
                 </li>
                 <li class="u-nav-item">
                   <a class="u-border-2 u-border-active-palette-1-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-grey-90" href="/p" style="padding: 10px 0px;">Αγγελίες</a>
@@ -154,7 +157,7 @@
                 </div>
                 <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-4">
                   <li class="u-nav-item">
-                    <a class="u-button-style u-nav-link" href="/">Αρχική</a>
+                    <a class="u-button-style u-nav-link" href="/web">Αρχική</a>
                   </li>
                   <li class="u-nav-item">
                     <a class="u-button-style u-nav-link" href="/p">Αγγελίες</a>

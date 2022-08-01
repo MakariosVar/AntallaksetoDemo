@@ -882,7 +882,12 @@ nav.main-menu {
    }
    
    .pic-holder:hover .upload-file-block,
-   .uploadProfileInput:focus ~ .upload-file-block {
+   .uploadProfileInput:focus ~ .upload-file-block,
+   .uploadProfileInput1:focus ~ .upload-file-block,
+   .uploadProfileInput2:focus ~ .upload-file-block,
+   .uploadProfileInput3:focus ~ .upload-file-block,
+   .uploadProfileInput4:focus ~ .upload-file-block,
+   .uploadProfileInput5:focus ~ .upload-file-block {
      opacity: 1;
    }
    
@@ -979,3 +984,61 @@ nav.main-menu {
    {
         word-break: break-all;
    }
+   .notVerfiedText
+{
+     font-size: 10px;
+   text-transform: uppercase;
+  background-image: linear-gradient(
+    -225deg,
+    #000000 0%,
+    #ff0000 29%,
+    #000000 67%,
+    #ff000094 100%
+  );
+  background-size: auto auto;
+  background-clip: border-box;
+  background-size: 50% auto;
+  color: #fff;
+  background-clip: text;
+  text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textclip 2s linear infinite;
+  display: inline-block;
+      font-size: 15px;
+}
+
+@keyframes textclip {
+  to {
+    background-position: 200% center;
+  }
+}
+.loadingText
+{
+     font-size: 10px;
+   text-transform: uppercase;
+  background-image: linear-gradient(
+    -225deg,
+    #5e5e5e 0%,
+    #00ddff 29%,
+    #b7b7b7 67%,
+    #1474fb94 100%
+  );
+  background-size: auto auto;
+  background-clip: border-box;
+  background-size: 50% auto;
+  color: #fff;
+  background-clip: text;
+  text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textclip 2s linear infinite;
+  display: inline-block;
+      font-size: 50px;
+}
+
+@keyframes textclip {
+  to {
+    background-position: 200% center;
+  }
+}

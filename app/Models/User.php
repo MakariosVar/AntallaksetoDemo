@@ -110,4 +110,20 @@ class User extends \TCG\Voyager\Models\User
         return $this->hasMany(Comment::class);
     }
 
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'user_roles');
+    }
+
+    public function getProfileImage()
+    {
+        // Check if the user has a profile
+        if ($this->profile) {
+            // Return the 'image' attribute from the related profile
+            return $this->profile->image;
+        }
+
+        // Default value if no profile image is available
+        return null;
+    }
 }

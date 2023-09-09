@@ -103,23 +103,25 @@
       <div v-if="this.posts[0]"  class="card mb-3 content">
           <section class="post-list">
 
+            <div v-for="post in filteredPosts" :key="post.id">
+              <router-link :to="'/p/'+post.id" class="post">
 
-	    	    <router-link v-for="post in posts" :key="post.id" :to="'/p/'+post.id" class="post">
- 	    		    <figure class="post-image">
-        			    <img :src="`/storage/${post.image0}`">
-      			  </figure>
-       		    <span class="post-overlay">
-         			
-           			        <p v-if="post.verified == 1">
-                              <span style="color:white;">{{ post.title}}</span>
-          			        </p>
-                        <p v-else>
-                              <span style="color:white;">ΠΡΟΣ ΕΓΚΡΙΣΗ</span>
-                              <PreLoader></PreLoader>
-                        </p>
-       			
-        		  </span>
- 	    	    </router-link>
+                  <figure class="post-image">
+                    <img :src="`/storage/${post.image0}`">
+                  </figure>
+                  <span class="post-overlay">
+                    
+                    <p v-if="post.verified == 1">
+                      <span style="color:white;">{{ post.title}}</span>
+                    </p>
+                    <p v-else>
+                      <span style="color:white;">ΠΡΟΣ ΕΓΚΡΙΣΗ</span>
+                      <PreLoader></PreLoader>
+                    </p>
+                    
+                  </span>
+              </router-link>
+            </div>
 
 
             <router-link to="/p/create" class="post">
@@ -199,106 +201,96 @@
                 },
 
                 methods:{
-                        deletecomment(id){
-                            
-                          
-
-                       
-				                          axios.post('/api/deletecomment/'+id).then((response) => {
-					                              if(response.data.status == "success"){
-                                                this.getComments();
-                                        }
-                                });
-                        		
-			                  
-                        }, 
-                        getProfileData(){
-                                 
-                                axios.get('/api/vue/profile/'+this.$route.params.id, this.user ).then((response) => {  
-                                                if(response.data.status == "success"){
-                                                  this.profile = response.data.profile[0];
-                                                  
-                                                  if(this.profile.image == null)
-                                                  {
-                                                    this.profile.image = "/profile/default.png"
-                                                  }
-                                                this.Loaded = true;
-                                                }
-                                            
+                  deletecomment(id){
+                    axios.post('/api/deletecomment/'+id).then((response) => {
+                      if(response.data.status == "success"){
+                              this.getComments();
+                      }
+                    });
+                  }, 
+                  getProfileData(){                            
+                    axios.get('/api/vue/profile/'+this.$route.params.id, this.user ).then((response) => {  
+                      if(response.data.status == "success"){
+                        this.profile = response.data.profile[0];
                         
-                                }).catch((error) => { 
-    							                  alert('Δεν βρέθηκε το προφίλ που ψάχνετε\nΜεταβείτε στην Αρχική')
-							                      this.$router.push('/home')
-						                    });
-                        },
-                        followclick(){
-                            if(!(this.profile.follows))
-                            {
-                              console.log('follow');  
-                              this.profile.follows = true;
-                              this.profile.followersCount += 1;
-                            }else{
-                              console.log('unfollow');
-                               this.profile.follows = false;
-                               this.profile.followersCount -= 1; 
-                            } 
-                            
-                        }, 
-                        getProfileUser(){
-                      
-                                axios.get('/api/vue/getuser/'+this.$route.params.id ).then((response) => {  
-                                                if(response.data.status == "success"){
-                                             
-                                                this.profileUser = response.data.user[0];
-                                                }
-                        
-                                });
-                        },
-                        getComments(){
-                             
-                                axios.get('/api/vue/getcomments/'+this.$route.params.id ).then((response) => {  
-                                  if(response.data.status == "success"){
-                                    this.comments =response.data.comments;
-                                  }
-                                });
-                        },
-                        getPosts(){
-                                if(this.profileUser){
-                                axios.get('/api/vue/myposts/'+this.$route.params.id ).then((response) => {  
-                                  if(response.data.status == "success"){
-                                    this.posts =response.data.posts;
-                                  }
-                                });}
-                        },
-                        checkForm: 
-                        function (e) {
-                          var formContents = jQuery("#Comment").serialize();
-
-                           axios.post('/api/c/store', formContents).then((response) => {  
-                                if(response.data.status == "success"){
-                               
-                                this.getComments()
-                                 
-                                }
-                                else
-                                {
-                                    alert(' Προσπαθήστε ξανά')
-                                }
-                        }, 
-                        function() 
+                        if(this.profile.image == null)
                         {
-                                console.log('failed');
-                        });
-                        e.preventDefault();
-                }
+                          this.profile.image = "/profile/default.png"
+                        }
+                      this.Loaded = true;
+                      }
+                    }).catch((error) => { 
+                        alert('Δεν βρέθηκε το προφίλ που ψάχνετε\nΜεταβείτε στην Αρχική')
+                        this.$router.push('/home')
+                    });
+                  },
+                followclick(){
+                    if(!(this.profile.follows))
+                    {
+                      console.log('follow');  
+                      this.profile.follows = true;
+                      this.profile.followersCount += 1;
+                    }else{
+                      console.log('unfollow');
+                        this.profile.follows = false;
+                        this.profile.followersCount -= 1; 
+                    } 
+                  }, 
+                  getProfileUser(){
+                    axios.get('/api/vue/getuser/'+this.$route.params.id ).then((response) => {  
+                      if(response.data.status == "success"){
+                        this.profileUser = response.data.user[0];
+                      }
+                    });
+                  },
+                  getComments(){
+                    axios.get('/api/vue/getcomments/'+this.$route.params.id ).then((response) => {  
+                      if(response.data.status == "success"){
+                        this.comments =response.data.comments;
+                      }
+                    });
+                  },
+                  getPosts(){
+                    if(this.profileUser){
+                      axios.get('/api/vue/myposts/'+this.$route.params.id ).then((response) => {  
+                        if(response.data.status == "success"){
+                          this.posts =response.data.posts;
+                        }
+                      });
+                    }
+                  },
+                  checkForm: function (e) {
+                    var formContents = jQuery("#Comment").serialize();
+                    axios.post('/api/c/store', formContents).then((response) => {  
+                      if(response.data.status == "success"){
+                    
+                      this.getComments()
                       
+                      }
+                      else
+                      {
+                          alert(' Προσπαθήστε ξανά')
+                      }
+                    }, 
+                    function() 
+                    {
+                            console.log('failed');
+                    });
+                    e.preventDefault();
+                  }  
+                },
+                computed: {
+                  filteredPosts() {
+                    return this.posts.filter(post => {
+                      return this.user && (this.user.id === post.user_id || post.verified === 1);
+                    });
+                  },
                 },
                 created(){
-                        this.getProfileData()
-                        this.getProfileUser()
-                        this.getPosts()
-                        this.getComments()
-                        
+                  this.getProfileData()
+                  this.getProfileUser()
+                  this.getPosts()
+                  this.getComments()
               }
                
         }

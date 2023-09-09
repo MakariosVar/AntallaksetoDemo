@@ -8,6 +8,10 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ProfilesController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Models\User;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Str;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,8 +22,23 @@ use App\Http\Controllers\Auth\LogoutController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/create-admin', function () {
+    $adminExists = User::where('email', 'admin@admin')->exists();
+
+    if (!$adminExists) {
+        $admin = new User();
+        $admin->name = 'Administrator';
+        $admin->email = 'admin@admin';
+        $admin->role_id = 1;
+        $admin->password = bcrypt('123123');
+        $admin->save();
 
 
+        dd('Admin Created');
+    } else {
+        dd('Admin Already Exists');
+    }
+});
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();

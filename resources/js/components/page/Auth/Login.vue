@@ -83,43 +83,43 @@
         },
          
         methods:{
+            checkForm: 
+                    function (e) {
+                        if(this.loggedin){  
+                                alert('Είστε ήδη συνδεδεμένος/η \n Μεταβείτε στην αρχική')
+                            location.replace('/home');
+                        }else
+                        {    
+                            var formContents = jQuery("#Login").serialize();
 
-      
-        checkForm: 
-                function (e) {
-                    if(this.loggedin){  
-                            alert('Είστε ήδη συνδεδεμένος/η \n Μεταβείτε στην αρχική')
-                           location.replace('/home');
-                    }else
-                    {    
-                        var formContents = jQuery("#Login").serialize();
-
-                        axios.post('/api/vuelogin', formContents).then((response) => {  
-                               if(response.data.status == "success"){
-                               
-                          
-                                let User = response.data.user;
-                                
-                                this.$emit('userID' , User); 
-                                this.$router.push('/home')
+                            axios.post('/api/vuelogin', formContents).then((response) => {  
+                                    if(response.data.status == "success"){
+                                        let User = response.data.user;
                                     
-                                }
-                                else
-                                {
-                                    alert('Το email και ο κωδικός δεν ταιριάζουν, Προσπαθήστε ξανά')
-                                }
-                        }, 
-                        function() 
-                        {
-                                console.log('failed');
-                        });
-                    }
-                    e.preventDefault();
-                },
-                islogged(){
-                    alert('η/η \n Μεταβείτε στην αρχική')
-                    location.replace('/home');
-                }
+                                        this.$emit('userLogged' , User); 
+                                        this.$router.push('/home')
+                                    }
+                                    else if (response.data.status == "error") {
+                                        alert('Το email και ο κωδικός δεν ταιριάζουν, Προσπαθήστε ξανά')
+                                    }
+                                    else
+                                    {
+                                        axios.post('/api/vuelogout').then((response) => {
+                                            this.checkForm();
+                                        });
+                                    }
+                            }, 
+                            function() 
+                            {
+                                    console.log('failed');
+                            });
+                        }
+                        e.preventDefault();
+                    },
+            islogged(){
+                alert('η/η \n Μεταβείτε στην αρχική')
+                location.replace('/home');
+            }
         }
     }
     

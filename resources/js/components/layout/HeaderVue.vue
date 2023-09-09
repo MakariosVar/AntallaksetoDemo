@@ -1,327 +1,141 @@
 <template>
-      <header class="u-clearfix u-header u-header">
-      
-               
-        <div class="u-clearfix u-sheet u-valign-top u-sheet-1">
-          <router-link to="/home" class="u-image u-logo u-image-1" data-image-width="1080" data-image-height="1080" title="Αρχική">
-            <img src="/images/NewLogoPNG.svg" class="u-logo-image u-logo-image-1">
-          </router-link>
-          <nav class="u-align-center u-menu u-menu-dropdown u-offcanvas u-menu-1">
-            <div class="menu-collapse" style="font-size: 1rem; letter-spacing: 0px; font-weight: 700; text-transform: uppercase;">
-              <a class="u-button-style u-custom-active-border-color u-custom-border u-custom-border-color u-custom-borders u-custom-hover-border-color u-custom-left-right-menu-spacing u-custom-padding-bottom u-custom-text-active-color u-custom-text-color u-custom-text-hover-color u-custom-top-bottom-menu-spacing u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="#">
-                <svg class="u-svg-link" viewBox="0 0 24 24"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#menu-hamburger"></use></svg>
-                <svg class="u-svg-content" version="1.1" id="menu-hamburger" viewBox="0 0 16 16" x="0px" y="0px" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g><rect y="1" width="16" height="2"></rect><rect y="7" width="16" height="2"></rect><rect y="13" width="16" height="2"></rect></g></svg>
-              </a>
-            </div>
-            <div class="u-custom-menu u-nav-container">
-              <ul class="u-nav u-spacing-30 u-unstyled u-nav-1">
-               
-                <li class="u-nav-item">
-                  <router-link class="u-border-2 u-border-active-palette-1-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-grey-90" to="/home" style="padding: 10px 0px;">Αρχική</router-link>
-                </li>
-                <li class="u-nav-item">
-                  <router-link class="u-border-2 u-border-active-palette-1-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-grey-90" to="/p" style="padding: 10px 0px;">Αγγελίες</router-link>
-                </li>
+  <b-navbar toggleable="md" type="light" class="px-5">
+    <b-navbar-brand>
+      <router-link to="/home" title="Αρχική">
+        <img style="max-height: 70px;" src="/images/NewLogoPNG.png" alt="Logo">
+    </router-link>
+    </b-navbar-brand>
 
-                <li class="u-nav-item">
-                  <a class="u-border-2 u-border-active-palette-1-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-grey-90" style="padding: 10px 0px;">
-                    Σχετικα με εμας
-                  </a>
-                  <div class="u-nav-popup">
-                    <ul class="u-h-spacing-20 u-nav u-unstyled u-v-spacing-10">
-                      <li class="u-nav-item">
-                        <router-link class="u-button-style u-nav-link u-white" to="/info">Πληροφορίες</router-link>
-                      </li>
-                      <li class="u-nav-item">
-                        <router-link class="u-button-style u-nav-link u-white" to="/contact">Επικοινωνία</router-link>
-                      </li>
-                    </ul>
-                  </div> 
-                </li>
-                <li class="u-nav-item">
-                 
-                  
-                  <a v-if="loggedin"  class="u-border-2 u-border-active-palette-1-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-grey-90" style="padding: 10px 0px;">{{ user.name }}</a>
-                  <a v-else class="u-border-2 u-border-active-palette-1-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-grey-90" style="padding: 10px 0px;">Λογαριασμός</a>
-                
-                  <div class="u-nav-popup">
-                    <ul class="u-h-spacing-20 u-nav u-unstyled u-v-spacing-10">
+    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
+    <b-collapse id="nav-collapse" is-nav>
+      <b-navbar-nav>
+        <b-nav-item :to="{ path: `/p` }">
+            <span class="text-dark">
+              Αγγελίες
+            </span>
+        </b-nav-item>
+        <b-nav-item-dropdown right>
+          <!-- Using 'button-content' slot -->
+          <template #button-content>
+            <router-link to="#" class="text-dark">
+              <em>
+                Σχετικά με εμάς
+              </em>
+            </router-link>
+          </template>
+          <b-dropdown-item :to="{ path: `/info` }">
+            <span class="text-dark">Πληροφορίες</span>
+          </b-dropdown-item>
+          <b-dropdown-item  :to="{ path: `/contact` }">
+            <span class="text-dark">Επικοινωνία</span>
+          </b-dropdown-item>
+        </b-nav-item-dropdown>
 
-                
-                  
-                      <li v-if="!loggedin" class="u-nav-item">
-                          <router-link class="u-button-style u-nav-link u-white" to="/login">Σύνδεση</router-link>
-                      </li>
-              
-    
-                 
-                      <li v-if="!loggedin" class="u-nav-item">
-                        <router-link class="u-button-style u-nav-link u-white" to="/register">Εγγραφή</router-link>
-                      </li>
-    
-                     
+      </b-navbar-nav>
 
-             
-              
-                    <li v-if="loggedin" class="u-nav-item"> 
-                       <router-link class="u-button-style u-nav-link u-white" :to="'/myposts/'+this.user.id">Οι Αγγελίες μου</router-link>
-                    </li> 
-                    <li v-if="loggedin" class="u-nav-item"> 
-                       <router-link class="u-button-style u-nav-link u-white" to="/p/create">Nεα αγγελια</router-link>
-                    </li> 
+      <!-- Right aligned nav items -->
+      <b-navbar-nav class="ml-auto">
+        <b-nav-form @submit.prevent="handleSubmit" v-if="!isPostPage">
+          <b-form-input v-model="searchInputValue" size="sm" class="mr-sm-2" placeholder="Search..."></b-form-input>
+        </b-nav-form>
+        
+          <b-nav-item-dropdown right v-if="user && (user.role_id == 1 || user.role_id == 3)">
+            <!-- Using 'button-content' slot -->
+            <template #button-content>
+              <b-icon icon="gear"></b-icon>
+            </template>
 
-                    <li v-if="loggedin" class="u-nav-item"> 
-                      <router-link class="u-button-style u-nav-link u-white" :to="'/profile/'+this.user.id">Προφίλ </router-link>
-                    </li> 
-
-                    <li v-if="loggedin" class="u-nav-item"> 
-                      <a class="u-button-style u-nav-link u-white" href="#" @click.prevent="logout()">Αποσύνδεση</a>  
-                    </li>
-                  </ul>
-                </div>
-              </li> 
-              
-              
-              
-              <li v-if="loggedin && user.role_id == 1" class="u-nav-item">
-               <a class="u-button-style u-nav-link">ADMIN</a>
-                  <div class="u-nav-popup">
-                    <ul class="u-h-spacing-20 u-nav u-unstyled u-v-spacing-10">
-
-
-                
-                  
-                      <li  class="u-nav-item">
-                          <a class="u-button-style u-nav-link u-white" href="/admin">PANEL Voyager</a>
-                      </li>
-              
-    
-                 
-                      <li  class="u-nav-item">
-                        <router-link :user="user" class="u-button-style u-nav-link u-white" to="/verificateposts">Εξέταση Αγγελιών--[{{this.pending}}]--</router-link>
-                      </li>
-
-                      <li  class="u-nav-item">
-                        <router-link class="u-button-style u-nav-link u-white" to="/messages">Μηνύματα</router-link>
-                      </li>
-                       
-                    </ul>
-                  </div>
-              </li>
-              <li v-if="loggedin && user.role_id == 3" class="u-nav-item">
-               <a class="u-border-2 u-border-active-palette-1-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-grey-90" style="padding: 10px 0px;">Moderator</a>
-                  <div class="u-nav-popup">
-                    <ul class="u-h-spacing-20 u-nav u-unstyled u-v-spacing-10">
-
-
-                
-                  
-                       <li  class="u-nav-item">
-                        <router-link class="u-button-style u-nav-link u-white" to="/messages">Μηνύματα</router-link>
-                      </li>
-              
-    
-                 
-                      <li  class="u-nav-item">
-                        <router-link :user="user" class="u-button-style u-nav-link u-white" to="/verificateposts">Εξέταση Αγγελιών--[{{this.pending}}]--</router-link>
-                      </li>
-
-                      
-                        
-                    </ul>
-                  </div>
-              </li>
-
-
-
-
-
-              </ul>
-          </div>
-
-
-<!--                         *************** RESPONSIVE MENU **********************-->
-
-          <div class="u-custom-menu u-nav-container-collapse">
-            <div class="u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
-              <div class="u-inner-container-layout u-sidenav-overflow">
-                <div class="u-menu-close">
-                </div>
-                <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-4">
-                  <li class="u-nav-item" @click="closeResponsiveMenu"> 
-                    <router-link class="u-button-style u-nav-link"  to="/home">Αρχική</router-link>
-                    <hr class="u-white"> 
-                  </li>
-                  <li class="u-nav-item" @click="closeResponsiveMenu">
-                    <router-link class="u-button-style u-nav-link"  to="/p">Αγγελίες</router-link>
-                    <hr class="u-white"> 
-                  </li>
-                  <li class="u-nav-item">
-                  
-                     
-                      <ul class="u-h-spacing-20 u-nav u-unstyled u-v-spacing-10">
-                        <li class="u-nav-item" @click="closeResponsiveMenu">
-                        <router-link class="u-button-style u-nav-link" to="/info">Πληροφορίες</router-link>
-                        </li>
-                        <li class="u-nav-item" @click="closeResponsiveMenu">
-                          <router-link class="u-button-style u-nav-link" to="/contact">Επικοινωνία</router-link>
-                        </li>
-                      </ul>
-                    <hr class="u-white">  
-                  </li>
-                  
-                   <li class="u-nav-item">
-                 
-                  
-                  
-                
-                 
-                    <ul class="u-h-spacing-20 u-nav u-unstyled u-v-spacing-10">
-
-
-                
-                  
-                      <li v-if="!loggedin" class="u-nav-item" @click="closeResponsiveMenu">
-                          <router-link class="u-button-style u-nav-link" to="/login">Σύνδεση</router-link>
-                      </li>
-              
-    
-                 
-                      <li v-if="!loggedin" class="u-nav-item" @click="closeResponsiveMenu">
-                        <router-link class="u-button-style u-nav-link" to="/register">Εγγραφή</router-link>
-                      </li>
-    
-                     
-
-             
-              
-                    <li v-if="loggedin" class="u-nav-item" @click="closeResponsiveMenu"> 
-                       <router-link class="u-button-style u-nav-link" :to="'/myposts/'+this.user.id">Οι Αγγελίες μου</router-link>
-                    </li> 
-                    <li v-if="loggedin" class="u-nav-item"> 
-                       <router-link class="u-button-style u-nav-link" to="/p/create">Nεα αγγελια</router-link>
-                    </li> 
-
-                    <li v-if="loggedin" class="u-nav-item" @click="closeResponsiveMenu"> 
-                      <router-link class="u-button-style u-nav-link" :to="'/profile/'+this.user.id">Προφίλ </router-link>
-                    </li> 
-
-                    <li v-if="loggedin" class="u-nav-item"> 
-                      <a class="u-button-style u-nav-link" href="#" @click.prevent="logout()">Αποσύνδεση</a>  
-                    </li>
-                  </ul>
-                
-              </li> 
-              <hr class="u-white">
-              
-              
-              <li v-if="loggedin && user.role_id == 1" class="u-nav-item">
-               
-                  
-                    <ul class="u-h-spacing-20 u-nav u-unstyled u-v-spacing-10">
- 
-
-                
-                  
-                      <li  class="u-nav-item" @click="closeResponsiveMenu">
-                          <a class="u-button-style u-nav-link" href="/admin">PANEL Voyager</a>
-                      </li>
-              
-    
-                 
-                      <li  class="u-nav-item" @click="closeResponsiveMenu">
-                        <router-link :user="user" class="u-button-style u-nav-link" to="/verificateposts">Εξέταση Αγγελιών--[{{this.pending}}]--</router-link>
-                      </li>
-
-                      <li  class="u-nav-item" @click="closeResponsiveMenu">
-                        <router-link class="u-button-style u-nav-link" to="/messages">Μηνύματα</router-link>
-                      </li>
-                       
-                    </ul>
-                  
-              </li>
-              <li v-if="loggedin && user.role_id == 3" class="u-nav-item">
-             
-                  <div class="u-nav-popup">
-                    <ul class="u-h-spacing-20 u-nav u-unstyled u-v-spacing-10">
-
-
-                
-                  
-                       <li  class="u-nav-item" @click="closeResponsiveMenu">
-                        <router-link class="u-button-style u-nav-link" to="/messages">Μηνύματα</router-link>
-                      </li>
-              
-    
-                 
-                      <li  class="u-nav-item" @click="closeResponsiveMenu">
-                        <router-link :user="user" class="u-button-style u-nav-link" to="/verificateposts">Εξέταση Αγγελιών--[{{this.pending}}]--</router-link>
-                      </li>
-
-                      
-                        
-                    </ul>
-                  </div>
-              </li>
-
-
-
-
-
-              </ul>
-          </div>
-            </div>
-            <div class="u-black u-menu-overlay u-opacity u-opacity-70">
-            </div>
-          </div>
-          </nav>
-      </div>
-      <div class="text-center bg-warning"> 
-        <h5>Δοκιμαστική έκδοση // DEMO</h5> 
-      </div>
-    </header> 
+            <b-dropdown-item v-if="user.role_id == 1">
+              <a @click="toAdminPanel()" class="text-dark">Admin panel</a>
+            </b-dropdown-item>
+            <b-dropdown-item to="/verificateposts">
+              <span class="text-dark">Εξέταση Αγγελιών ({{this.pending}})</span>
+            </b-dropdown-item>
+            <b-dropdown-item to="/messages">
+              <span class="text-dark">Μηνύματα</span>
+            </b-dropdown-item>
+          </b-nav-item-dropdown>
+          <b-nav-item-dropdown right>
+          <!-- Using 'button-content' slot -->
+          <template #button-content>
+            <span v-if="profileImage">
+              <b-img style="max-width: 35px;" fluid :src="'/storage/'+profileImage" rounded="circle" alt="User"></b-img>
+            </span>
+            <b-icon v-else icon="person-circle"></b-icon>
+          </template>
+          <span v-if="loggedin">
+            <b-dropdown-item :to="`/profile/${this.user.id}`">
+              <span class="text-dark">Προφίλ / {{ user.name }}</span>
+            </b-dropdown-item>
+            <b-dropdown-item :to="`/p/create`">
+              <span class="text-dark">Προσθήκη Αγγελίας</span>
+            </b-dropdown-item>
+            <b-dropdown-item :to="`/myposts/${this.user.id}`">
+              <span class="text-dark">Οι Αγγελίες μου</span>
+            </b-dropdown-item>
+            <b-dropdown-item @click="logout">Αποσύνδεση</b-dropdown-item>
+          </span>
+          <span v-else>
+            <b-dropdown-item to="/login">
+              <span class="text-dark">Σύνδεση</span>
+            </b-dropdown-item>
+            <b-dropdown-item to="/register">
+              <span class="text-dark">Εγγραφή</span>
+            </b-dropdown-item>
+          </span>
+        </b-nav-item-dropdown>
+      </b-navbar-nav>
+    </b-collapse>
+  </b-navbar>
 </template>
-
 <script>
         export default {
                 props: ['loggedin', 'user'],
 
                 data(){
                   return{
-                      pending:0
+                      pending:0,
+                      searchInputValue: ''
                   }
                 },
 
                 methods: {
-                        logout() {
-                          
-                            axios.post('/api/vuelogout').then((response) => {
-                                localStorage.setItem('loggedin', 0)
-                                localStorage.setItem('user', null)
-                                location.replace('/home');
-                            });
-                         },
-                        getPendingPosts(){ 
-                           axios.get('/api/vue/toverificate').then((response) => {
-                                        
-                                      this.pending = Object.keys(response.data).length;
-                                })
-                        },
-                        closeResponsiveMenu(){ 
-                          document.querySelector('.u-menu-close').click();
-                        }
-                        
+                  toAdminPanel () {
+                    window.location.replace('/admin')
+                  },
+                  handleSubmit() {
+                    // Change the router's view programmatically
+                    this.$router.push({ path: '/p' , query: { search: this.searchInputValue } });
+                  },
+                  logout() {
+                      axios.post('/api/vuelogout').then((response) => {
+                          localStorage.setItem('user', null)
+                          location.replace('/home');
+                      });
+                    },
+                  getPendingPosts(){ 
+                      axios.get('/api/vue/toverificate').then((response) => {
+                                  
+                                this.pending = Object.keys(response.data).length;
+                          })
+                  },
                 },
                 created(){ 
                     this.getPendingPosts();
-                },
+                  },
                 computed:{
-                      checkPost(){
-                        this.getPendingPosts();
-                        return 'updated';
-                      } 
-                  }
+                  profileImage() {
+                    return (this.user && this.user.profile_image) ? this.user.profile_image : false;
+                  },
+                  isPostPage() {
+                    return this.$route.path === '/p';
+                  },
+                  checkPost(){
+                    this.getPendingPosts();
+                    return 'updated';
+                  } 
+                }
                 
         }  
 </script>

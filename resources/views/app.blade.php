@@ -47,18 +47,7 @@
         
        
     </head>
-    
-    @if(auth()->check())
-        <?php   
-            $LoggedIn = 1; 
-            $user = Auth::user();
-         ?>
-    @else
-        <?php 
-            $LoggedIn = 0;
-            $user = null;
-        ?>
-    @endif
+
     <body class="u-body u-xl-mode">
 
 
@@ -67,9 +56,9 @@
 
      
     <div id="app" v-cloak>
-                    <app :sessionloggedin="{{ $LoggedIn }}" :sessionuser="{{ json_encode($user) }}" > 
-                    </app>
-                    <scrollup></scrollup> 
+        <app> 
+        </app>
+        <scrollup></scrollup> 
     </div>
 
                     

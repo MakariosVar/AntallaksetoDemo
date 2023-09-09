@@ -113,6 +113,9 @@
                   if(this.$route.query.category){
                     this.searchCategory = this.$route.query.category;
                   }
+                  if(this.$route.query.search){
+                    this.searchTitle = this.$route.query.search;
+                  }
                 }
        },
        computed:{
@@ -133,11 +136,11 @@
                     }
                 },
                 
-      }, 
+      },
       created(){
-                    this.getCategories();
-                    this.getPosts(); 
-                    this.queryCaught();
+        this.getCategories();
+        this.getPosts(); 
+        this.queryCaught();
       }
     }
 

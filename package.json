@@ -29,6 +29,7 @@
         "@fortawesome/free-regular-svg-icons": "^6.1.1",
         "@fortawesome/free-solid-svg-icons": "^6.1.1",
         "@fortawesome/vue-fontawesome": "^2.0.8",
+        "bootstrap-vue": "^2.23.1",
         "owl.carousel": "^2.3.4",
         "swiper": "^7.3.1",
         "vue-google-adsense": "^1.10.1",

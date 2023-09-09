@@ -35,7 +35,7 @@
 							 
 						</div> 
 									
-                                                <form  class="d-flex align-items-center" v-if="user.role_id != 2" @submit.prevent="DeleteMessage(message.id)"> 
+                                                <form  class="d-flex align-items-center" v-if="user.role_id == 1" @submit.prevent="DeleteMessage(message.id)"> 
 							<div class="text-center">
 								<button type="submit" class="btn btn-outline-danger btn-sm ml-3">Διαγραφή Mηνύματος</button>
 							</div>

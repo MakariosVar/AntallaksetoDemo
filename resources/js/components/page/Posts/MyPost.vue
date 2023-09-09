@@ -25,10 +25,9 @@
                 <PreLoader v-if="!(Loaded)"></PreLoader>
  
 	        <div class="card mb-3 content p-5" style="min-height:700px;">
-             
-                <section class="post-list ">
+                <section class="row">
                         
-	    	        <router-link v-for="post in posts" :key="post.id" :to="'/p/'+post.id" class="post">
+	    	        <router-link v-for="post in posts" :key="post.id" :to="'/p/'+post.id" class="col-3 post">
  	    		        <figure class="post-image">
         		        	<img :src="`/storage/${post.image0}`">
       			        </figure>
@@ -53,14 +52,14 @@
 
 <script>
 
- export default {
+        export default {
 
                 props: [ 'user'],
 
                 data() {
                         return {
-                        posts: {},
-                        Loaded: false
+                                posts: {},
+                                Loaded: false
                         }
                 },
 
@@ -77,8 +76,10 @@
                         }
                       
                 },
-                created(){
-                     
+                mounted(){
+                        if (!(this.$route.params.id == this.user.id)) {
+                                this.$router.push('/myposts/'+this.user.id)
+                        }
                         this.getPosts()
                        
                         

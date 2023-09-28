@@ -2,38 +2,198 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Message;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Comment;
 use App\Models\Profile;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VueApi extends Controller
 {
 
-    
+        
+     //       //        //
+    // API ENDPOINT FOR SESSION CHECK  //
+    public function checkSession ($token)
+    {
+        $user = User::authenticateByToken($token);
+        if ($user) {
+            return response()->json([
+                'status' => 'success',
+                'session' => true
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'error',
+            'expired' => true,
+            'message' => 'Session Expired',
+        ], 200);
+    }
+
+         //       //        //
+    // API ENDPOINT FOR SESSION CHECK  //
+    public function checkResetPasswordToken ($token)
+    {
+        $user = User::where('reset_password_token', $token)->first();
+        if ($user) {
+            return response()->json([
+                'status' => 'success',
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'error',
+            'expired' => true,
+            'message' => 'Session Expired',
+        ], 200);
+    }
 
   
      //       //        //
     // APIs FOR POSTS  //
 
-    public function posts() //  <== this return ALL VERIFICATED POSTS
+    public function posts(Request $request)
     {
-        $posts = Post::where("verified", "=","1")->orderByDesc('id')->get();
+        // Get the search query from the request, if available
+        $search = $request->input('q');
+
+        // Get the search query from the request, if available
+        $searchCategory = $request->input('category');
+
+        // Query the posts and filter based on verification and search criteria
+        $query = Post::where('verified', 1)->orderByDesc('id');
+    
+        // Apply search filtering if a search query is provided
+        if ($search) {
+            $query->where(function ($subquery) use ($search) {
+                $subquery->where('title', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Apply category filtering if a category is provided
+        if ($searchCategory && !($searchCategory === 'all')) {
+            $query->where(function ($subquery) use ($searchCategory) {
+                $subquery->where('category', 'like', '%' . $searchCategory . '%');
+            });
+        }
+    
+        // Paginate the results (e.g., 10 posts per page)
+        $posts = $query->paginate(10);
+        foreach ($posts as $key => $post) {
+            $location = $post->location; // Access the location related model
+    
+            // Assuming "location" has a property named "fullAddress"
+            $post->fullAddress = $location;
+        }
         return $posts;
     }
 
-    public function toVerificate() //  <== this return ALL VERIFICATED POSTS
+    public function relatedPosts($id)
     {
+        $post = Post::find($id);
+
+        if (empty($post)) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Post not find',
+            ], 200);
+        }
+        // Get posts with the same category
+        $relatedByCategory = Post::where('category', $post->category)
+            ->where('id', '<>', $post->id) // Exclude the current post
+            ->get();
+
+        // Get posts with similar names
+        $relatedBySimilarName = Post::where('title', 'like', '%' . $post->title . '%')
+            ->where('id', '<>', $post->id) // Exclude the current post
+            ->get();
+
+        // Combine the two sets of related posts
+        $relatedPosts = $relatedByCategory->concat($relatedBySimilarName);
+
+        // Limit the results to the first 4 posts
+        $limitedRelatedPosts = $relatedPosts->take(4);
+        foreach ($limitedRelatedPosts as $key => $post) {
+            $location = $post->location; // Access the location related model
+    
+            // Assuming "location" has a property named "fullAddress"
+            $post->fullAddress = $location;
+        }
+        return response()->json([
+            'status' => 'success',
+            'posts' => $limitedRelatedPosts,
+        ]);
+    }
+    
+
+    public function toVerificate($token) //  <== this return ALL VERIFICATED POSTS
+    {
+        $user = User::authenticateByToken($token);
+        if (!$user){
+            return response()->json([
+                'status' => 'error',
+                'expired' => true,
+                'message' => 'Session Expired',
+            ], 200);
+        }
+        if(!$user->isAdmin()) {
+            return response()->json([
+                'status' => 'error',
+                'unauthorized' => true,
+                'message' => 'Unauthorized user',
+            ]);
+        }
         $posts = Post::where("verified", "=","0")->get();
         foreach($posts as $post){
-        $post->date = date( "d-m-Y H:i:s", strtotime($post->created_at) );
-        $post->update_at = date( "d-m-Y H:i:s", strtotime($post->updated_at) );
-        $post->username =  User::find($post->user_id)->name;
-        $post->email =  User::find($post->user_id)->email;
+            $location = $post->location; // Access the location related model
+
+            // Assuming "location" has a property named "fullAddress"
+            $post->fullAddress = $location;
+            $post->date = date( "d-m-Y H:i:s", strtotime($post->created_at) );
+            $post->update_at = date( "d-m-Y H:i:s", strtotime($post->updated_at) );
+            $post->username =  User::find($post->user_id)->name;
+            $post->email =  User::find($post->user_id)->email;
         }
         return $posts;
+    }
+
+    public function unreadMessages($token) //  <== this return ALL VERIFICATED POSTS
+    {
+        $user = User::authenticateByToken($token);
+        if (!$user){
+            return response()->json([
+                'status' => 'error',
+                'expired' => true,
+                'message' => 'Session Expired',
+            ], 200);
+        }
+        if(!$user->isAdmin()) {
+            return response()->json([
+                'status' => 'error',
+                'unauthorized' => true,
+                'message' => 'Unauthorized user',
+            ]);
+        }
+        
+        $messages = Message::all();
+        $totalUnreadMessages = 0;
+        foreach($messages as $message){
+            $message->date = date( "d-m-Y H:i:s", strtotime($message->created_at) );
+            $message->update_at = date( "d-m-Y H:i:s", strtotime($message->updated_at) );
+            if (!$message->isReadByUser($user->id)) {
+                $message->isNotRead = true;
+                $totalUnreadMessages += 1;
+            }
+        }
+        return response()->json([
+            'status' => 'success',
+            'messages' => $messages,
+            'totalUnreadMessages' => $totalUnreadMessages
+        ]);
     }
 
     public function premiumPosts()//  <== this return PREMIUM POSTS 
@@ -46,19 +206,29 @@ class VueApi extends Controller
     }
     public function getPost($id)//  <== this return SPECIFIC POST
     {
-        $post = Post::where("id", "=", $id)->get();
-        $post[0]->username =  User::find($post[0]->user_id)->name;
-        $post[0]->email =  User::find($post[0]->user_id)->email;
-        $post[0]->date = date( "d-m-Y H:i:s", strtotime($post[0]->created_at) );
-        $post[0]->update_at = date( "d-m-Y H:i:s", strtotime($post[0]->updated_at) );
-        if(!(empty(Profile::find($post[0]->user_id)->image))){
-                $post[0]->userimage =  Profile::find($post[0]->user_id)->image;
+        $post = Post::where("id", "=", $id)->first();
+        if (!empty($post)) {
+            $location = $post->location; // Access the location related model
+
+            // Assuming "location" has a property named "fullAddress"
+            $post->fullAddress = $location;
+            $post->username =  User::find($post->user_id)->name;
+            $post->email =  User::find($post->user_id)->email;
+            $post->date = date( "d-m-Y H:i:s", strtotime($post->created_at) );
+            $post->update_at = date( "d-m-Y H:i:s", strtotime($post->updated_at) );
+            if(!(empty(Profile::find($post->user_id)->image))){
+                    $post->userimage =  Profile::find($post->user_id)->image;
+            }
+            
+            return response()->json([
+                'status'   => 'success',
+                'post' => $post,
+            ]); 
         }
-        
         return response()->json([
-            'status'   => 'success',
-            'post' => $post,
-          ]); 
+            'status'   => 'error',
+            'message' => 'Post not found',
+        ], 404);
   
     }
     public function getMyPost($id)//  <== this return User's POSTS
@@ -72,16 +242,29 @@ class VueApi extends Controller
     }
 
     //       //        //
-    // APIs FOR USERS  //
-    public function getuser($id)
+    // API FOR USER  //
+    public function getuser($token)
     {
-        $user = User::where("id", "=", $id)->get();
+        $user = User::authenticateByToken($token);
+    
+        if ($user) {
+            $user->profile_image = $user->getProfileImage();
+            $user->auth_token = $token;
+            // $user->unreadMessages = $user->messages()->wherePivot('read', false)->get();
+    
+            return response()->json([
+                'status' => 'success',
+                'user' => $user,
+            ]);
+        }
+    
         return response()->json([
-            'status'   => 'success',
-            'user' => $user,
-          ]); 
-     
+            'status' => 'error',
+            'expired' => true,
+            'message' => 'Session Expired',
+        ], 200);
     }
+    
     public function username($id) 
     {
         $user = User::where("id","=",$id);
@@ -114,11 +297,12 @@ class VueApi extends Controller
        //       //        //
     // APIs FOR profile  //
 
-    public function profile($id)
+    public function profile($id, $token)
     {
+        $user = User::authenticateByToken($token);
     
         $profile = Profile::where("user_id", "=", $id)->get();
-        $follows = (auth()->user()) ? auth()->user()->following->contains($profile[0]) : false;
+        $follows = ($user) ? $user->following->contains($profile[0]) : false;
 
         
         $user = User::find($id);
@@ -138,52 +322,54 @@ class VueApi extends Controller
         return response()->json([
             'status'   => 'success',
             'profile' => $profile,
+            'profileUser' => $user
           ]); 
-        
-        
     }
+
+    public function followToggle($id, $token)
+    {
+        $user = User::authenticateByToken($token);
+        $profileUser = User::find($id);
+        if ($user && $user->following()->toggle($profileUser->profile)) {
+    
+            return response()->json([
+                'status' => 'success',
+            ]);
+        }
+    
+        return response()->json([
+            'status' => 'error',
+            'expired' => true,
+            'message' => 'Session Expired',
+        ], 200);
+
+    }
+
     public function countPostsFollowersFollowing(User $user)
     {
-        
+        $postCount = \Illuminate\Support\Facades\Cache::remember('count.posts.'.$user->id, now()->addSeconds(5), function() use ($user) {
+            return $user->posts->count();
+        }) ;
 
-      
-      
-        $postCount = Cache::remember('count.posts.'.$user->id, now()->addSeconds(5), function() use ($user) {
-                return $user->posts->count();
-            }) ;
- 
-        $followersCount =Cache::remember('count.followers.'.$user->id, now()->addSeconds(5), function() use ($user) {
-                return  $user->profile->followers->count();
-             }) ;
-        $followingCount =Cache::remember('count.following.'.$user->id, now()->addSeconds(5), function() use ($user) {
-                 return  $user->following->count(); 
-            }) ;
- 
- 
- 
-    
+        $followersCount = \Illuminate\Support\Facades\Cache::remember('count.followers.'.$user->id, now()->addSeconds(5), function() use ($user) {
+            return  $user->profile->followers->count();
+        }) ;
+        $followingCount = \Illuminate\Support\Facades\Cache::remember('count.following.'.$user->id, now()->addSeconds(5), function() use ($user) {
+            return  $user->following->count(); 
+        }) ;
     }
+
     public function getcomments($id)
     {
-    
         $comments = Comment::where("profile_id","=",$id)->orderBy('id', 'DESC')->get();
-        
-        
         foreach($comments as $comment){
-        
             $comment->commentersname =  User::find($comment->user_id)->name;
-
-
             $comment->date = date( "d-m-Y H:i:s", strtotime($comment->created_at) );
             $comment->update_at = date( "d-m-Y H:i:s", strtotime($comment->updated_at) );
-           
         }
         return response()->json([
             'status'   => 'success',
             'comments' => $comments,
         ]); 
-        
-        
     }
-   
 }

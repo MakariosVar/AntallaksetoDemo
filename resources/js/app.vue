@@ -54,7 +54,6 @@
                                 this.user = JSON.parse(storageUser)
                                 this.loggedin =  1;
                         }
-                        // console.log(this.user)
                         window.scrollTo(0, 0);
                 }
         }

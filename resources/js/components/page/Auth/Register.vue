@@ -1,7 +1,7 @@
 <template>
 <div v-if="this.loggedin" v-bind="islogged()" class="pageMinFit">
         <div class="d-flex justify-content-center">
-            <img src="/images/NewLogoPNG.svg" class="imageNotFound"> 
+            <img src="~assets/images/NewLogoPNG.svg" class="imageNotFound"> 
         </div>
     </div>
 <div v-else class="container py-5" style="height:700px;">

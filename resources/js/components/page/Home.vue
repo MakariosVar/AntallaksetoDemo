@@ -40,7 +40,9 @@
             </router-link>
           </div>
         </div>
-        <router-link to="/p" class="u-align-center u-border-2 u-border-black u-btn u-button-style u-hover-black u-none u-text-hover-white u-btn-1">ΔΕΙΤΕ ΟΛΕΣ ΤΙΣ ΑΓΓΕΛΙΕΣ</router-link>
+        <div class="text-center">
+          <router-link to="/p" class="btn btn-outline-secondary">ΔΕΙΤΕ ΟΛΕΣ ΤΙΣ ΑΓΓΕΛΙΕΣ</router-link>
+        </div>
       </div>
     </section>
     <ads></ads> 

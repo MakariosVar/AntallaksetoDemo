@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VerificationEmail;
+use App\Mail\ResetPasswordMail;
+use Swift_TransportException;
 
 class RegisterController extends Controller
 {
@@ -72,21 +76,123 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+
     public function vuecreate(Request $request)
     {
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        try {
+            // Inside your registration controller or logic
+            $user = null;// Retrieve the user you want to send the email to
+
+
+            // Email was sent successfully
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+
+            // Send the email
+            $sent = Mail::to($user->email)->send(new VerificationEmail($user));
+            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+                return response()->json([
+                    'status'   => 'success',
+                    'user' => $user,
+                    ]); 
+            }
+        // Email sending failed
+        } catch (Swift_TransportException $e) {
+            // Email sending failed, handle the exception
+            // You can log the error or perform other actions
+            var_dump($e);die();
+        }   
+    }
+
+    public function verificateUser(Request $request, $token)
+    {
+        // Get the authenticated user
+        $user = User::where('verification_token', $token)->first();
+
+        if (!empty($user)) {
+
+            if ($user->hasVerifiedEmail()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Email is already verified.',
+                ]);    
+            }
+            if ($user->verifyEmail()) {
+                return response()->json([
+                    'status' => 'success',
+                    'user' => $user,
+                    'message' => 'User Verified.',
+                ]);
+            }
             return response()->json([
-                'status'   => 'success',
-                'user' => $user,
-              ]); 
+                'status' => 'Not Found',
+                'error' => 'User Can\'t be verified.'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'Not Found',
+                'error' => 'User Not Found.'
+            ]);
         }
-        return response()->json([
-            'status'   => 'failed'
-          ]); 
+    }
+
+    public function setPassword ($token) 
+    {
+        $data = request()->all();
+        $password = $data['password'];
+
+        $user = User::where('reset_password_token', $token)->first();
+
+
+        if (!empty($user)) {
+            $user->password = Hash::make($password);
+            $user->reset_password_token = null;
+            if ($user->save()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Password updated',
+                ]);     
+            }
+            return response()->json([
+                'status' => 'error',
+                'message' => 'User not saved',
+            ]);  
+        } else {
+            return response()->json([
+                'status' => 'Not Found',
+                'error' => 'User Not Found.'
+            ]);
+        }
+    }
+
+    public function resetPassword () {
+        $data = request()->all();
+        $email = $data['email'];
+
+        $user = User::where('email', $email)->first();
+
+        if (!empty($user)) {
+            $user->reset_password_token = \Str::random(40);
+            if ($user->save()) {
+                // Send the email
+                $sent = Mail::to($user->email)->send(new ResetPasswordMail($user));                
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Email send',
+                ]);     
+            }
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Email not send',
+            ]);     
+        } else {
+            return response()->json([
+                'status' => 'Not Found',
+                'error' => 'User Not Found.'
+            ]);
+        }
     }
 }

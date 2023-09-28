@@ -43,7 +43,7 @@
                 <h2>Φωτογραφία Προφίλ</h2>
                 <div class="pic-holder">
                      <!-- uploaded pic shown here -->
-                    <img id="profilePic" class="pic" src="{{Auth::user()->profile->ProfileImage();}}">
+                    {{-- <img id="profilePic" class="pic" src="{{Auth::user()->profile->ProfileImage()}}"> --}}
 
                     <Input class="uploadProfileInput" type="file" name="image" id="newProfilePhoto" accept="image/*" style="opacity: 0;" />
                     <label for="newProfilePhoto" class="upload-file-block">

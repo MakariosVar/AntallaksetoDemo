@@ -42,33 +42,50 @@ class ProfilesController extends Controller
       return view('profiles.edit', compact('user'));
     }
 
-    public function update(User $user)
+    public function update($token)
     {
-        $this->authorize('update', $user->profile);
-        $data = request()->validate([
-            'description' => 'max:600',
-            'image' => 'nullable',
-        ]);
-        
-        
-        
-        
-        if (!(request('image') == '')){
-            $imagePath = request('image')->store('profile', 'public');
+        try {
+
+            $data = request()->validate([
+                'description' => ['max:600', 'nullable'],
+                'image' => 'nullable',
+            ]);
             
-            $image = Image::make(public_path("storage/{$imagePath}"))->fit(1000, 1000);
-            $image->save();
             
-            $imageArray =   ['image'=> $imagePath];
+            $user = User::authenticateByToken($token);
+            if (!empty($user)) {
+
             
+                if (!(request('image') == '')){
+                    $imagePath = request('image')->store('profile', 'public');
+                    
+                    $image = Image::make(public_path("storage/{$imagePath}"))->fit(1000, 1000);
+                    $image->save();
+                    
+                    $imageArray =   ['image'=> $imagePath];
+                    
+                }
+                
+            
+                $user->profile->update(array_merge(
+                    $data,
+                    $imageArray ?? []
+                ));
+
+                return response()->json([
+                    'status' => 'success',
+                    'image_url' => $imagePath ?? ''
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'expired' => true,
+                    'message' => 'Session Expired',
+                ], 200);
+            }
+        } catch (\Throwable $th) {
+            throw $th;
         }
         
-     
-        auth()->user()->profile->update(array_merge(
-            $data,
-            $imageArray ?? []
-        ));
-
-        return redirect("/profile/{$user->id}");
     }
 }

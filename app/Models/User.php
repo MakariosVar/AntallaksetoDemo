@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends \TCG\Voyager\Models\User
@@ -41,6 +42,7 @@ class User extends \TCG\Voyager\Models\User
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'verification_token' => 'string',
     ];
 
 
@@ -53,14 +55,39 @@ class User extends \TCG\Voyager\Models\User
     protected static function boot()
     {
         parent::boot();
+        static::creating(function ($user) {
+            $user->verification_token = \Str::random(40); // Generate a random token
+        });
 
         static::created(function ($user) {
+            $user->auth_token = \Str::random(40); // Generate a random token
             $user->profile()->create([
                 'title' => $user->username,
             ]);
         });
     }
 
+    public static function authenticateByToken($token)
+    {
+        $authTokenRecord = DB::table('auth_tokens')->where('token', $token)->first();
+
+        if ($authTokenRecord && $authTokenRecord->expires_at > now()) {
+            // The record exists, and the token is not expired
+            // Now, retrieve the associated user
+            $user = User::find($authTokenRecord->user_id);
+    
+            if ($user) {
+                return $user;
+            }
+        }
+    
+        return null;
+    }
+
+    public function isAdmin()
+    {
+        return $this->role_id === 1;
+    }
 
 
         /**
@@ -87,6 +114,16 @@ class User extends \TCG\Voyager\Models\User
         return $this->belongsToMany(Profile::class);
     }
 
+    /**
+     * Profile connection
+     *
+     * 
+     */
+
+    public function authToken()
+    {
+        return $this->hasOne(AuthToken::class);
+    }
 
      /**
      * Profile connection
@@ -99,7 +136,7 @@ class User extends \TCG\Voyager\Models\User
         return $this->hasOne(Profile::class);
     }
 
-        /**
+    /**
      * comments connection
      *
      * 
@@ -125,5 +162,19 @@ class User extends \TCG\Voyager\Models\User
 
         // Default value if no profile image is available
         return null;
+    }
+
+    public function hasVerifiedEmail()
+    {
+        return empty($this->verification_token) && !empty($this->email_verified_at);
+    }
+
+    public function verifyEmail() {
+        $this->verification_token = null;
+        $this->email_verified_at = now();
+        if ($this->save()) {
+            return true;
+        }
+        return false;
     }
 }

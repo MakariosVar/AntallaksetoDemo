@@ -11,11 +11,12 @@ use App\Models\User;
 
 class LogoutController extends Controller
 {
-        public function logout(Request $request) {
-                Auth::logout();
+    public function logout(Request $request) {
+        Auth::logout();
             
-                return response()->json([
-                   'message' => 'Successfully logged out'
-                ]);
-              }
+        return response()->json([
+            'status' => "success",
+            'message' => 'Successfully logged out'
+        ]);
+    }
 }

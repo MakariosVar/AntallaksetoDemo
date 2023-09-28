@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
 use App\Models\User;
 
 class LoginController extends Controller
@@ -44,7 +47,20 @@ class LoginController extends Controller
     {
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){ 
           $user= Auth::user();
+
+          // Generate a unique token and store it in the database
+          $token = Str::random(60);
+          $expiresAt = Carbon::now()->addHours(2); // Token expiration time, e.g., 2 hours from now
+          // Store the token and expiration timestamp in the database
+          DB::table('auth_tokens')->updateOrInsert(
+            ['user_id' => $user->id],
+            [
+                'token' => $token,
+                'expires_at' => $expiresAt,
+            ]
+          );
           $user->profile_image = $user->getProfileImage();
+          $user->auth_token = $token;
           return response()->json([
             'status'   => 'success',
             'user' => $user,

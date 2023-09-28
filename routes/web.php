@@ -40,23 +40,16 @@ Route::get('/create-admin', function () {
     }
 });
 
+Route::get('/clear-cache', function () {
+    Artisan::call('config:clear');
+    Artisan::call('cache:clear');
+    Artisan::call('route:clear');
+    Artisan::call('view:clear');
+    Artisan::call('optimize');
+
+    dd('cleared :)');
+});
+
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
-});
-
-Route::get('/', function (){
-    return redirect('/home');
-});
-
-Route::get('/home', function (){
-    return view('app');
-});
-Route::get('{any}', function () {
-    return view('app');
-})->where('any','.*');
-
-
-
-
-        
-
+}); 

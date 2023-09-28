@@ -109,7 +109,7 @@
                     this.$router.push({ path: '/p' , query: { search: this.searchInputValue } });
                   },
                   logout() {
-                      axios.post('/api/vuelogout').then((response) => {
+                      axios.get('/api/vuelogout').then((response) => {
                           localStorage.setItem('user', null)
                           location.replace('/home');
                       });

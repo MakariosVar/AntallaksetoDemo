@@ -80,8 +80,14 @@ class RegisterController extends Controller
     public function vuecreate(Request $request)
     {
         try {
-            // Inside your registration controller or logic
-            $user = null;// Retrieve the user you want to send the email to
+            $user = User::where('email', $request->email)->first();
+
+            if (!empty($user)) {
+                return response()->json([
+                    'status'   => 'error',
+                    'message' => 'User Exist',
+                ]); 
+            }
 
 
             // Email was sent successfully
@@ -97,7 +103,7 @@ class RegisterController extends Controller
                 return response()->json([
                     'status'   => 'success',
                     'user' => $user,
-                    ]); 
+                ]); 
             }
         // Email sending failed
         } catch (Swift_TransportException $e) {

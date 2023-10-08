@@ -95,39 +95,46 @@ class VueApi extends Controller
     public function relatedPosts($id)
     {
         $post = Post::find($id);
-
+    
         if (empty($post)) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Post not find',
+                'message' => 'Post not found',
             ], 200);
         }
+    
         // Get posts with the same category
         $relatedByCategory = Post::where('category', $post->category)
             ->where('id', '<>', $post->id) // Exclude the current post
             ->get();
-
+    
         // Get posts with similar names
         $relatedBySimilarName = Post::where('title', 'like', '%' . $post->title . '%')
             ->where('id', '<>', $post->id) // Exclude the current post
             ->get();
-
+    
         // Combine the two sets of related posts
         $relatedPosts = $relatedByCategory->concat($relatedBySimilarName);
-
+    
+        // Use the unique method to ensure uniqueness based on the 'id' attribute
+        $uniqueRelatedPosts = $relatedPosts->unique('id');
+    
         // Limit the results to the first 4 posts
-        $limitedRelatedPosts = $relatedPosts->take(4);
-        foreach ($limitedRelatedPosts as $key => $post) {
-            $location = $post->location; // Access the location related model
+        $limitedRelatedPosts = $uniqueRelatedPosts->take(4);
+    
+        foreach ($limitedRelatedPosts as $key => $relatedPost) {
+            $location = $relatedPost->location; // Access the location related model
     
             // Assuming "location" has a property named "fullAddress"
-            $post->fullAddress = $location;
+            $relatedPost->fullAddress = $location;
         }
+    
         return response()->json([
             'status' => 'success',
             'posts' => $limitedRelatedPosts,
         ]);
     }
+    
     
 
     public function toVerificate($token) //  <== this return ALL VERIFICATED POSTS

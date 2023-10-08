@@ -95,12 +95,6 @@ Route::get('/readMessage/{id}/{token}', [MessageController::class, 'readMessage'
                                 //     
                         // THIS ENDPOINTS RETURNS:
 
-
-                                                                        
-Route::get('/vue/users', [VueApi::class, 'users']);                             // ALL USERS DATA
-                                                                                // '/api/users' 
-                                                                        
-
 Route::get('/vue/getuser/{token}', [VueApi::class, 'getuser']);                 // ONE user's data with ID request 
                                                                                 // '/api/vue/getuser/ID' 
                                                                         

@@ -65,7 +65,12 @@ class VueApi extends Controller
         $searchCategory = $request->input('category');
 
         // Query the posts and filter based on verification and search criteria
-        $query = Post::where('verified', 1)->orderByDesc('id');
+        $query = Post::where('verified', 1)
+            ->where(function ($subquery) {
+                $subquery->where('done', false)
+                    ->orWhereNull('done');
+            })
+            ->orderByDesc('id');
     
         // Apply search filtering if a search query is provided
         if ($search) {

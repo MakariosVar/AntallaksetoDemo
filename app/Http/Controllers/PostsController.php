@@ -348,6 +348,42 @@ class PostsController extends Controller
         }
     }
 
+    public function markAsDone($id, $token) {
+        $user = User::authenticateByToken($token);
+        $post = Post::find($id);
+
+        if ($user && $post) {
+            if ($user->id == $post->user_id) {
+                $post->done = true;
+                if ($post->save()) {
+                    return response()->json([
+                        'status' => 'success'
+                    ]);
+                }
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Post not Updated.'
+                ]);
+            }
+            return response()->json([
+                'status' => 'error',
+                'unauthorized' => true,
+                'message' => 'Unauthorized user',
+            ]);
+        }
+        if (empty($user)) {
+            return response()->json([
+                'status' => 'error',
+                'expired' => true,
+                'message' => 'Session Expired',
+            ], 200);
+        }
+        return response()->json([
+            'status' => 'error',
+            'post_not_found' => true,
+            'message' => 'Post not found',
+        ], 404);
+    }
 
     public function destroy($id, $token)
     {

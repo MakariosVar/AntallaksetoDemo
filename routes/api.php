@@ -58,6 +58,9 @@ Route::post('/toreedit/{id}', [PostsController::class, 'reeditpost']);
 
                         /* route for DELETE POST */  
 Route::delete('/p/{id}/{token}', [PostsController::class, 'destroy']);
+
+                        /* route for COMPLETE POST */  
+Route::get('/postDone/{id}/{token}', [PostsController::class, 'markAsDone']);
                         
                         /* route for FOLLOW USER  */
 Route::get('follow/{user}/{token}', [VueApi::class, 'followToggle']);

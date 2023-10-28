@@ -65,6 +65,13 @@ class User extends \TCG\Voyager\Models\User
                 'title' => $user->username,
             ]);
         });
+
+        static::deleting(function ($user) {
+            // Delete all posts related to the user
+            $user->posts->each(function ($post) {
+                $post->delete();
+            });
+        });
     }
 
     public static function authenticateByToken($token)

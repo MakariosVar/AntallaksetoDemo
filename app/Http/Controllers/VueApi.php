@@ -309,12 +309,15 @@ class VueApi extends Controller
        //       //        //
     // APIs FOR profile  //
 
-    public function profile($id, $token)
+    public function profile($id, $token = '')
     {
         $user = User::authenticateByToken($token);
     
         $profile = Profile::where("user_id", "=", $id)->get();
-        $follows = ($user) ? $user->following->contains($profile[0]) : false;
+        if (!empty($user)) {
+            $follows = ($user) ? $user->following->contains($profile[0]) : false;
+            $profile[0]->follows = $follows;
+        }
 
         
         $user = User::find($id);
@@ -326,7 +329,6 @@ class VueApi extends Controller
 
         $followingCount = $user->following->count(); 
   
-        $profile[0]->follows = $follows;
         $profile[0]->postCount = $postCount;
         $profile[0]->followersCount = $followersCount;
         $profile[0]->followingCount = $followingCount;

@@ -110,11 +110,13 @@ class VueApi extends Controller
     
         // Get posts with the same category
         $relatedByCategory = Post::where('category', $post->category)
+            ->where('verified', true)
             ->where('id', '<>', $post->id) // Exclude the current post
             ->get();
     
         // Get posts with similar names
         $relatedBySimilarName = Post::where('title', 'like', '%' . $post->title . '%')
+            ->where('verified', true)
             ->where('id', '<>', $post->id) // Exclude the current post
             ->get();
     
@@ -321,15 +323,16 @@ class VueApi extends Controller
 
         
         $user = User::find($id);
-      
-        $postCount = $user->posts->count();
+        if (!empty($user)) {
+            $postCount = $user->posts->count();
+            $profile[0]->postCount = $postCount;
+        }
  
 
         $followersCount = $user->profile->followers->count();
 
         $followingCount = $user->following->count(); 
   
-        $profile[0]->postCount = $postCount;
         $profile[0]->followersCount = $followersCount;
         $profile[0]->followingCount = $followingCount;
         

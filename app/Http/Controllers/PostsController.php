@@ -391,7 +391,7 @@ class PostsController extends Controller
         $post = Post::find($id);
 
         if ($user && $post) {
-            if ($user->id == $post->user_id) {
+            if (($user->id == $post->user_id) || $user->canDeletePosts()) {
                 $post->delete();
 
                 return response()->json([

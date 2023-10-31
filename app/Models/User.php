@@ -96,6 +96,15 @@ class User extends \TCG\Voyager\Models\User
         return $this->role_id === 1;
     }
 
+    public function isModerator()
+    {
+        return $this->role_id === 3;
+    }
+
+    public function canDeletePosts() {
+        return ($this->isAdmin() || $this->isModerator());
+    }
+
 
         /**
      * Post connection

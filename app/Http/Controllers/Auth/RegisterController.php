@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\VerificationEmail;
 use App\Mail\ResetPasswordMail;
 use Swift_TransportException;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
+
 
 class RegisterController extends Controller
 {
@@ -96,6 +100,18 @@ class RegisterController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
             ]);
+            // Generate a unique token and store it in the database
+            $token = Str::random(60);
+            $expiresAt = Carbon::now()->addHours(2); // Token expiration time, e.g., 2 hours from now
+            // Store the token and expiration timestamp in the database
+            DB::table('auth_tokens')->updateOrInsert(
+                ['user_id' => $user->id],
+                [
+                    'token' => $token,
+                    'expires_at' => $expiresAt,
+                ]
+            );
+            $user->auth_token = $token;
 
             // Send the email
             $sent = Mail::to($user->email)->send(new VerificationEmail($user));

@@ -45,17 +45,27 @@ class ProfilesController extends Controller
     public function update($token)
     {
         try {
+            $validator = \Validator::make(request()->all(), [
+                'description' => ['max:600', 'nullable'],
+                'image' => ['nullable', 'image', 'max:2048'],
+            ]);
+            
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors(),
+                ], 422);
+            }
 
             $data = request()->validate([
                 'description' => ['max:600', 'nullable'],
-                'image' => 'nullable',
+                'image' => ['nullable', 'image', 'max:2048'],
             ]);
             
             
             $user = User::authenticateByToken($token);
             if (!empty($user)) {
-
-            
                 if (!(request('image') == '')){
                     $imagePath = request('image')->store('profile', 'public');
                     

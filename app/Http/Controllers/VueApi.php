@@ -64,6 +64,9 @@ class VueApi extends Controller
         // Get the search query from the request, if available
         $searchCategory = $request->input('category');
 
+        // Get the search query from the request, if available
+        $searchPlace = $request->input('place');
+
         // Query the posts and filter based on verification and search criteria
         $query = Post::where('verified', 1)
             ->where(function ($subquery) {
@@ -73,14 +76,31 @@ class VueApi extends Controller
             ->orderByDesc('id');
     
         // Apply search filtering if a search query is provided
-        if ($search) {
+        if ($search && $search != 'undefined') {
             $query->where(function ($subquery) use ($search) {
                 $subquery->where('title', 'like', '%' . $search . '%');
             });
         }
 
+        // Apply search filtering if a place  search query is provided
+        if (!empty($searchPlace)) {
+            // Decode the URL-encoded string
+            $decodedString = urldecode($searchPlace);
+            // Remove leading/trailing single quotes if present
+            $decodedString = trim($decodedString, "'");
+            // Convert the JSON-like string to a PHP associative array
+            $parsedPlaceObject = json_decode($decodedString, true);
+
+            if ($parsedPlaceObject !== null) {
+                // Eager load location relationship with constraint
+                $query->whereHas('location', function($q) use ($parsedPlaceObject){
+                    $q->where('locality', $parsedPlaceObject['locality']);
+                });
+            }
+        }
+
         // Apply category filtering if a category is provided
-        if ($searchCategory && !($searchCategory === 'all')) {
+        if ($searchCategory && $searchCategory != 'undefined' && !($searchCategory === 'all')) {
             $query->where(function ($subquery) use ($searchCategory) {
                 $subquery->where('category', 'like', '%' . $searchCategory . '%');
             });
@@ -91,7 +111,6 @@ class VueApi extends Controller
         foreach ($posts as $key => $post) {
             $location = $post->location; // Access the location related model
     
-            // Assuming "location" has a property named "fullAddress"
             $post->fullAddress = $location;
         }
         return $posts;

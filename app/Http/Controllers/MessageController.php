@@ -12,7 +12,7 @@ class MessageController extends Controller
         {
             $user = User::authenticateByToken($token);
             if ($user){
-                if($user->isAdmin()) {
+                if($user->isAdmin() || $user->isModerator()) {
                     $messages = Message::all()->sortByDesc("id");
                     $readMessages = [];
                     $unreadMessages = [];

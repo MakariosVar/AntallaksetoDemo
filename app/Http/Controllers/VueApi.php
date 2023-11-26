@@ -173,7 +173,7 @@ class VueApi extends Controller
                 'message' => 'Session Expired',
             ], 200);
         }
-        if(!$user->isAdmin()) {
+        if(!$user->isAdmin() && !$user->isModerator()) {
             return response()->json([
                 'status' => 'error',
                 'unauthorized' => true,
@@ -204,7 +204,7 @@ class VueApi extends Controller
                 'message' => 'Session Expired',
             ], 200);
         }
-        if(!$user->isAdmin()) {
+        if(!$user->isAdmin() && !$user->isModerator()) {
             return response()->json([
                 'status' => 'error',
                 'unauthorized' => true,
@@ -319,7 +319,7 @@ class VueApi extends Controller
         
         foreach($categories as $category){
 
-            $category->count = Post::where('category','=',$category->title)->where("verified","=","1")->count();
+            $category->count = Post::where('category','=',$category->title)->where("done", "=", "0")->where("verified","=","1")->count();
 
         }
             $ret = $categories->sortByDesc('count');

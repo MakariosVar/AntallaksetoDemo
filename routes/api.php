@@ -10,6 +10,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\FollowsController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ProfilesController;
@@ -141,3 +142,13 @@ Route::get('/vue/premiumPosts', [VueApi::class, 'premiumPosts']);               
 Route::get('/vue/categories', [VueApi::class, 'categories']);                   // ALL CATEGORIES
                                                                                 // '/api/vue/categories' 
 
+
+                        //     
+                        //     
+                        // REPORTS ENDPOINTS:
+                        //     
+                        //     
+
+Route::post('/report/create', [ReportController::class, 'store']);
+Route::get('/reports/all/{token}/{type}', [ReportController::class, 'index']);
+Route::delete('/reports/{id}/{token}', [ReportController::class, 'destroy']);

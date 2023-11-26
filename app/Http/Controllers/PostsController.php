@@ -31,7 +31,7 @@ class PostsController extends Controller
                 'message' => 'Session Expired',
             ], 200);
         } else {
-            $prem = ($request->has('premium') ? true : false);
+            $prem = false;
 
             try {
                 $data = $request->validate([
@@ -426,7 +426,10 @@ class PostsController extends Controller
         if ($user) {
             if ($user->role_id != 2) {
                 $post = Post::find($id);
-                $post->update(['verified' => true]);
+                $post->update([
+                    'verified' => true,
+                    'reEdit' => false
+                ]);
 
                 return response()->json([
                     'status' => 'success'

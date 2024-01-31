@@ -114,7 +114,11 @@ class RegisterController extends Controller
             $user->auth_token = $token;
 
             // Send the email
-            $sent = Mail::to($user->email)->send(new VerificationEmail($user));
+            try {
+                $sent = Mail::to($user->email)->send(new VerificationEmail($user));
+            } catch (\Throwable $th) {
+                //..
+            }
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
                 return response()->json([
                     'status'   => 'success',

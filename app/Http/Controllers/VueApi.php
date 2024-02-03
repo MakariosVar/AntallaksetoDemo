@@ -359,6 +359,12 @@ class VueApi extends Controller
         $user = User::authenticateByToken($token);
     
         $profile = Profile::where("user_id", "=", $id)->get();
+        if (!isset($profile[0])) {
+            return response()->json([
+                'status'   => 'error',
+                'message' => 'Profile no found',
+              ]); 
+        }
         if (!empty($user)) {
             $follows = ($user) ? $user->following->contains($profile[0]) : false;
             $profile[0]->follows = $follows;

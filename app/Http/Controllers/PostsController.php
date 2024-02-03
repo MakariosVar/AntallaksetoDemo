@@ -37,10 +37,7 @@ class PostsController extends Controller
                 $data = $request->validate([
                     'title' => ['required', 'max:60'],
                     'description' => ['required', 'max:300'],
-                    'address_locality' => ['required', 'max:60'],
-                    'address_country' => ['required', 'max:60'],
-                    'address_latitude' => ['required', 'numeric'],
-                    'address_longitude' => ['required', 'numeric'],
+                    'location_id' => ['required', 'exists:locations,id'],
                     'category' => 'required',
                     'condition' => 'required',
                     'phone' => ['nullable'],
@@ -82,6 +79,7 @@ class PostsController extends Controller
                     'image2' => $imagePath2,
                     'image3' => $imagePath3,
                     'image4' => $imagePath4,
+                    'location_id' => $data['location_id'],
                     'category' => $data['category'],
                     'condition' => $data['condition'],
                     'phone' => $data['phone'],
@@ -91,15 +89,6 @@ class PostsController extends Controller
                     'premium' => $prem,
                 ]);
                 if (!empty($post)) {
-                    $location = new Location([
-                        'locality' => $data['address_locality'],
-                        'country' => $data['address_country'],
-                        'latitude' => $data['address_latitude'],
-                        'longitude' => $data['address_longitude'],
-                    ]);
-
-                    $post->location()->save($location);
-
                     return response()->json([
                         'status' => 'success',
                     ]);
@@ -173,10 +162,7 @@ class PostsController extends Controller
                 'image2' => 'nullable|image|max:2048',
                 'image3' => 'nullable|image|max:2048',
                 'image4' => 'nullable|image|max:2048',
-                'address_locality' => ['required', 'max:60'],
-                'address_country' => ['required', 'max:60'],
-                'address_latitude' => ['required', 'numeric'],
-                'address_longitude' => ['required', 'numeric'],
+                'location_id' => ['required', 'exists:locations,id'],
             ]);
 
             if ($validator->fails()) {
@@ -197,40 +183,11 @@ class PostsController extends Controller
             // IMAGE 4 //
             $imagePath4 = $this->uploadOptionalImage($request, 'image4', $post->image4);
 
-            // Check if address fields are different and update location if needed
-            if (
-                $request->input('address_locality') != $post->location->locality ||
-                $request->input('address_country') != $post->location->country ||
-                $request->input('address_latitude') != $post->location->latitude ||
-                $request->input('address_longitude') != $post->location->longitude
-            ) {
-                // Check if a location record already exists for the post
-                if ($post->location) {
-                    // If a location exists, update its attributes
-                    $post->location->update([
-                        'locality' => $request->input('address_locality'),
-                        'country' => $request->input('address_country'),
-                        'latitude' => $request->input('address_latitude'),
-                        'longitude' => $request->input('address_longitude'),
-                    ]);
-                } else {
-                    // If no location exists, create a new one
-                    $location = new Location([
-                        'locality' => $request->input('address_locality'),
-                        'country' => $request->input('address_country'),
-                        'latitude' => $request->input('address_latitude'),
-                        'longitude' => $request->input('address_longitude'),
-                    ]);
-            
-                    $post->location()->save($location);
-                }
-            }
-            
-
             $post->update([
                 'title' => $request->input('title'),
                 'description' => $request->input('description'),
                 'category' => $request->input('category'),
+                'location_id' => $request->input('location_id'),
                 'image0' => $imagePath0,
                 'image1' => $imagePath1,
                 'image2' => $imagePath2,

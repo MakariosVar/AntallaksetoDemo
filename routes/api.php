@@ -142,6 +142,9 @@ Route::get('/vue/premiumPosts', [VueApi::class, 'premiumPosts']);               
 Route::get('/vue/categories', [VueApi::class, 'categories']);                   // ALL CATEGORIES
                                                                                 // '/api/vue/categories' 
 
+Route::get('/vue/places', [VueApi::class, 'places']);                           // ALL PLACES
+                                                                                // '/api/vue/places' 
+
 
                         //     
                         //     

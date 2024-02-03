@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Comment;
 use App\Models\Profile;
 use App\Models\Category;
+use App\Models\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -84,17 +85,23 @@ class VueApi extends Controller
 
         // Apply search filtering if a place  search query is provided
         if (!empty($searchPlace)) {
-            // Decode the URL-encoded string
-            $decodedString = urldecode($searchPlace);
-            // Remove leading/trailing single quotes if present
-            $decodedString = trim($decodedString, "'");
-            // Convert the JSON-like string to a PHP associative array
-            $parsedPlaceObject = json_decode($decodedString, true);
-
-            if ($parsedPlaceObject !== null) {
-                // Eager load location relationship with constraint
-                $query->whereHas('location', function($q) use ($parsedPlaceObject){
-                    $q->where('locality', $parsedPlaceObject['locality']);
+            if (!is_numeric($searchPlace)) {
+                // Decode the URL-encoded string
+                $decodedString = urldecode($searchPlace);
+                // Remove leading/trailing single quotes if present
+                $decodedString = trim($decodedString, "'");
+                // Convert the JSON-like string to a PHP associative array
+                $parsedPlaceObject = json_decode($decodedString, true);
+    
+                if ($parsedPlaceObject !== null) {
+                    // Eager load location relationship with constraint
+                    $query->whereHas('location', function($q) use ($parsedPlaceObject){
+                        $q->where('locality', $parsedPlaceObject['locality']);
+                    });
+                }
+            } else {
+                $query->where(function ($subquery) use ($searchPlace) {
+                    $subquery->where('location_id', $searchPlace);
                 });
             }
         }
@@ -325,6 +332,23 @@ class VueApi extends Controller
             $ret = $categories->sortByDesc('count');
 
         return $ret->values();
+    }
+
+
+    //       //        //
+    // APIs FOR PLACES  //
+
+    public function places()
+    {
+        $locations = Location::all();
+        
+        $locationNames = [];
+        foreach($locations as $location){
+            $locationNames[$location->id] = $location->name_el;
+        }
+
+
+        return $locationNames;
     }
 
        //       //        //

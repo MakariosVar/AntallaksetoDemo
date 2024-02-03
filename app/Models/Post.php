@@ -15,6 +15,6 @@ class Post extends \TCG\Voyager\Models\Post
 
     public function location()
     {
-        return $this->hasOne(Location::class);
+        return $this->hasOne(Location::class, 'id','location_id');
     }
 }

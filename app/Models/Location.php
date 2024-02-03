@@ -9,10 +9,6 @@ class Location extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['locality', 'country', 'latitude', 'longitude'];
+    protected $fillable = ['name_el', 'name_eng', 'latitude', 'longitude'];
 
-    public function post()
-    {
-        return $this->belongsTo(Post::class);
-    }
 }

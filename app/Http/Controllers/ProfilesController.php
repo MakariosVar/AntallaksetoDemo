@@ -47,7 +47,7 @@ class ProfilesController extends Controller
         try {
             $validator = \Validator::make(request()->all(), [
                 'description' => ['max:600', 'nullable'],
-                'image' => ['nullable', 'image', 'max:2048'],
+                'image' => ['nullable', 'image', 'max:5120'],
             ]);
             
             if ($validator->fails()) {
@@ -60,7 +60,7 @@ class ProfilesController extends Controller
 
             $data = request()->validate([
                 'description' => ['max:600', 'nullable'],
-                'image' => ['nullable', 'image', 'max:2048'],
+                'image' => ['nullable', 'image', 'max:5120'],
             ]);
             
             

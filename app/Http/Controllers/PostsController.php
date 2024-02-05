@@ -43,11 +43,11 @@ class PostsController extends Controller
                     'phone' => ['nullable'],
                     'transferPref' => ['required', 'max:300'],
                     'premium' => 'nullable',
-                    'image0' => ['required', 'image', 'max:2048'],
-                    'image1' => 'nullable|image|max:2048',
-                    'image2' => 'nullable|image|max:2048',
-                    'image3' => 'nullable|image|max:2048',
-                    'image4' => 'nullable|image|max:2048',
+                    'image0' => ['required', 'image', 'max:5120'],
+                    'image1' => 'nullable|image|max:5120',
+                    'image2' => 'nullable|image|max:5120',
+                    'image3' => 'nullable|image|max:5120',
+                    'image4' => 'nullable|image|max:5120',
                 ]);
 
 
@@ -157,11 +157,11 @@ class PostsController extends Controller
                 'condition' => ['required', 'max:60'],
                 'phone' => ['nullable'],
                 'transferPref' => ['required', 'max:300'],
-                'image0' => 'nullable|image|max:2048',
-                'image1' => 'nullable|image|max:2048',
-                'image2' => 'nullable|image|max:2048',
-                'image3' => 'nullable|image|max:2048',
-                'image4' => 'nullable|image|max:2048',
+                'image0' => 'nullable|image|max:5120',
+                'image1' => 'nullable|image|max:5120',
+                'image2' => 'nullable|image|max:5120',
+                'image3' => 'nullable|image|max:5120',
+                'image4' => 'nullable|image|max:5120',
                 'location_id' => ['required', 'exists:locations,id'],
             ]);
 
@@ -219,11 +219,11 @@ class PostsController extends Controller
 
 
             $data = request()->validate([
-                'image0' => ['image', 'nullable', 'max:2048'],
-                'image1' => ['image', 'nullable', 'max:2048'],
-                'image2' => ['image', 'nullable', 'max:2048'],
-                'image3' => ['image', 'nullable', 'max:2048'],
-                'image4' => ['image', 'nullable', 'max:2048']
+                'image0' => ['image', 'nullable', 'max:5120'],
+                'image1' => ['image', 'nullable', 'max:5120'],
+                'image2' => ['image', 'nullable', 'max:5120'],
+                'image3' => ['image', 'nullable', 'max:5120'],
+                'image4' => ['image', 'nullable', 'max:5120']
             ]);
 
             // IMAGE 0 - //

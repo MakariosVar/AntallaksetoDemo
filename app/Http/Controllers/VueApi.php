@@ -427,15 +427,24 @@ class VueApi extends Controller
 
     public function getcomments($id)
     {
-        $comments = Comment::where("profile_id","=",$id)->orderBy('id', 'DESC')->get();
-        foreach($comments as $comment){
-            $comment->commentersname =  User::find($comment->user_id)->name;
-            $comment->date = date( "d-m-Y H:i:s", strtotime($comment->created_at) );
-            $comment->update_at = date( "d-m-Y H:i:s", strtotime($comment->updated_at) );
+        $profile = Profile::where("user_id", "=", $id)->first();
+
+        if (!empty($profile)) {
+            $comments = Comment::where("profile_id","=",$profile->id)->orderBy('id', 'DESC')->get();
+            foreach($comments as $comment){
+                $comment->commentersname =  User::find($comment->user_id)->name;
+                $comment->date = date( "d-m-Y H:i:s", strtotime($comment->created_at) );
+                $comment->update_at = date( "d-m-Y H:i:s", strtotime($comment->updated_at) );
+            }
+            return response()->json([
+                'status'   => 'success',
+                'comments' => $comments,
+            ]); 
         }
         return response()->json([
-            'status'   => 'success',
-            'comments' => $comments,
+            'status'   => 'error',
+            'profile' => 'Profile Not Found',
         ]); 
+
     }
 }

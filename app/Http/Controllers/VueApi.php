@@ -256,8 +256,8 @@ class VueApi extends Controller
             $post->email =  User::find($post->user_id)->email;
             $post->date = date( "d-m-Y H:i:s", strtotime($post->created_at) );
             $post->update_at = date( "d-m-Y H:i:s", strtotime($post->updated_at) );
-            if(!(empty(Profile::find($post->user_id)->image))){
-                    $post->userimage =  Profile::find($post->user_id)->image;
+            if(!(empty(Profile::where("user_id", "=", $post->user_id)->image))){
+                    $post->userimage =  Profile::where("user_id", "=", $post->user_id)->image;
             }
             
             return response()->json([
